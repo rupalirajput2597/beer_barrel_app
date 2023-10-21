@@ -20,6 +20,7 @@ class BBColor {
   static Color get primaryGrey => hexToColor("#AFB2B5");
   static Color get secondaryGrey => hexToColor("#77838F");
   static Color get faintWhite => hexToColor("#F2F2F2");
+  static Color get grey => hexToColor("#D8D8D8");
 }
 
 /// Construct a color from a hex code string, of the format #RRGGBB.

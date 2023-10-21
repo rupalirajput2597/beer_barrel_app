@@ -7,14 +7,14 @@ class Beer {
   String? firstBrewed;
   String? description;
   String? imageUrl;
-  double? abv;
-  int? ibu;
-  int? targetFg;
-  int? targetOg;
-  int? ebc;
-  int? srm;
-  double? ph;
-  int? attenuationLevel;
+  num? abv;
+  num? ibu;
+  num? targetFg;
+  num? targetOg;
+  num? ebc;
+  num? srm;
+  num? ph;
+  num? attenuationLevel;
   Volume? volume;
   Volume? boilVolume;
   Method? method;
@@ -53,15 +53,20 @@ class Beer {
     firstBrewed = json['first_brewed'];
     description = json['description'];
     imageUrl = json['image_url'];
+
     abv = json['abv'];
     ibu = json['ibu'];
+
     targetFg = json['target_fg'];
     targetOg = json['target_og'];
     ebc = json['ebc'];
     srm = json['srm'];
+
     ph = json['ph'];
+
     attenuationLevel = json['attenuation_level'];
     volume = json['volume'] != null ? Volume.fromJson(json['volume']) : null;
+
     boilVolume = json['boil_volume'] != null
         ? Volume.fromJson(json['boil_volume'])
         : null;
@@ -69,6 +74,7 @@ class Beer {
     ingredients = json['ingredients'] != null
         ? BeerIngredients.fromJson(json['ingredients'])
         : null;
+
     foodPairing = json['food_pairing'].cast<String>();
     brewersTips = json['brewers_tips'];
     contributedBy = json['contributed_by'];
@@ -110,7 +116,7 @@ class Beer {
 }
 
 class Volume {
-  int? value;
+  num? value;
   String? unit;
 
   Volume({this.value, this.unit});

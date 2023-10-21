@@ -1,5 +1,5 @@
 class Amount {
-  double? value;
+  num? value;
   String? unit;
 
   Amount({this.value, this.unit});
