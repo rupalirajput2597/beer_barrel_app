@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 
 class BBAppTheme {
   static ThemeData theme(BuildContext context) => ThemeData(
+        fontFamily: "sf-pro-text",
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        primaryColor: BBColor.pageBackground(context),
-        primaryColorDark: BBColor.pageBackground(context),
-        canvasColor: BBColor.pageBackground(context),
-        scaffoldBackgroundColor: BBColor.pageBackground(context),
+        primaryColor: BBColor.pageBackground,
+        primaryColorDark: BBColor.pageBackground,
+        canvasColor: BBColor.pageBackground,
+        scaffoldBackgroundColor: BBColor.pageBackground,
       );
 }
 
 class BBColor {
-  static Color pageBackground(BuildContext context, {double opacity = 1.0}) {
-    // return hexToColor("#0D0D0D").withOpacity(opacity);
-    return hexToColor("#FFFFFF").withOpacity(opacity);
-  }
+  static Color get pageBackground => hexToColor("#1E2022");
+
+  static Color get white => Colors.white;
+  static Color get transparent => Colors.transparent;
+  static Color get primaryGrey => hexToColor("#AFB2B5");
+  static Color get secondaryGrey => hexToColor("#77838F");
+  static Color get faintWhite => hexToColor("#F2F2F2");
 }
 
 /// Construct a color from a hex code string, of the format #RRGGBB.
