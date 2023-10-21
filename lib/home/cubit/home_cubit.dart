@@ -11,21 +11,34 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(InitialHomeState());
 
   List<Beer> beers = [];
+  int pageNumber = 1;
+  bool loadMore = false;
 
   fetchBeerList(BuildContext context) async {
-    emit(LoadingHomeState());
+    (pageNumber == 1) ? emit(LoadingHomeState()) : emit(LoadMoreHomeState());
+
     try {
       DataRepository dataRepo = RepositoryProvider.of<DataRepository>(context);
 
-      beers = await dataRepo.fetchBeersList(1) ?? [];
+      List<Beer> results = await dataRepo.fetchBeersList(pageNumber) ?? [];
 
-      print("beerrs -- ${beers.length}");
+      if (results.isNotEmpty) {
+        beers.addAll(results);
+        pageNumber += 1;
+        loadMore = true;
+      } else {
+        loadMore = false;
+      }
 
+      print("homae -- ${pageNumber}");
       emit(DataFetchedSuccessHomeState());
     } on SocketException catch (e, s) {
       print("$e: $s");
+      pageNumber = 1;
       emit(ErrorHomeState(900));
     } catch (e) {
+      pageNumber = 1;
+
       emit(ErrorHomeState(100));
     }
   }

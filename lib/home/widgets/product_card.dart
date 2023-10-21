@@ -2,9 +2,9 @@ import 'package:beer_barrel/core/core.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class ProductItemWidget extends StatelessWidget {
+class ProductCard extends StatelessWidget {
   final Beer beer;
-  const ProductItemWidget(this.beer, {super.key});
+  const ProductCard(this.beer, {super.key});
 
   @override
   Widget build(BuildContext context) {

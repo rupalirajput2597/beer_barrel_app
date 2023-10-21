@@ -21,6 +21,8 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: BBColor.primaryGrey,
             fontSize: 16,
@@ -32,6 +34,8 @@ class ProductDetailScreen extends StatelessWidget {
         ),
         Text(
           tagline,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: BBColor.secondaryGrey,
             fontSize: 14,
@@ -75,7 +79,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   _customeBack(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 36, bottom: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: GestureDetector(
         onTap: () {
           context.pop();

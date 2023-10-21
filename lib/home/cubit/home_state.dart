@@ -4,6 +4,8 @@ class InitialHomeState extends HomeState {}
 
 class LoadingHomeState extends HomeState {}
 
+class LoadMoreHomeState extends HomeState {}
+
 class DataFetchedSuccessHomeState extends HomeState {}
 
 class ErrorHomeState extends HomeState {
