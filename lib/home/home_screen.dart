@@ -44,7 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              RoundedButton.profile(),
+              RoundedButton.profile(
+                onTap: () {
+                  context.push(AppRouter.profilePath);
+                },
+              ),
               _chooseBeerMsg(),
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
@@ -100,24 +104,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _profileIcon() {
-    return GestureDetector(
-      onTap: () {
-        //  context.push(AppRouter.profilePath);
-      },
-      child: Container(
-        margin: const EdgeInsets.only(left: 8),
-        height: 36,
-        width: 36,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            image: const DecorationImage(
-              image: AssetImage(AssetHelper.profileIcon),
-            ),
-            color: BBColor.white),
-      ),
-    );
-  }
+  // _profileIcon() {
+  //   return GestureDetector(
+  //     onTap: () {
+  //     },
+  //     child: Container(
+  //       margin: const EdgeInsets.only(left: 8),
+  //       height: 36,
+  //       width: 36,
+  //       decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(12),
+  //           image: const DecorationImage(
+  //             image: AssetImage(AssetHelper.profileIcon),
+  //           ),
+  //           color: BBColor.white),
+  //     ),
+  //   );
+  // }
 
   Widget _chooseBeerMsg() {
     return Padding(

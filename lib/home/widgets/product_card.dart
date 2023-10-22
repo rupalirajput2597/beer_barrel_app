@@ -2,6 +2,8 @@ import 'package:beer_barrel/core/core.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/widgets/network_image.dart';
+
 class ProductCard extends StatelessWidget {
   final Beer beer;
   const ProductCard(this.beer, {super.key});
@@ -34,19 +36,9 @@ Widget _image(Beer beer) {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [
-          SizedBox(
+          NetworkImageWidget(
+            imageUrl: beer.imageUrl ?? "",
             height: 100,
-            child: CachedNetworkImage(
-              imageUrl: beer.imageUrl ?? "",
-              fit: BoxFit.contain,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Center(
-                child: CircularProgressIndicator(
-                  value: downloadProgress.progress,
-                ),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
           ),
           const SizedBox(height: 5),
           Container(
