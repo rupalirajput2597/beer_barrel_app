@@ -1,24 +1,24 @@
 import 'package:beer_barrel/core/core.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class ProductItemWidget extends StatelessWidget {
-  const ProductItemWidget({super.key});
+class ProductCard extends StatelessWidget {
+  final Beer beer;
+  const ProductCard(this.beer, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _image(),
-          _productDetail(),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _image(beer),
+        _productDetail(beer),
+      ],
     );
   }
 }
 
-Widget _image() {
+Widget _image(Beer beer) {
   return Container(
     decoration: const BoxDecoration(
       borderRadius: BorderRadius.vertical(
@@ -34,18 +34,32 @@ Widget _image() {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [
-          Image.asset(
-            AssetHelper.beer1,
+          SizedBox(
+            height: 100,
+            child: CachedNetworkImage(
+              imageUrl: beer.imageUrl ?? "",
+              fit: BoxFit.contain,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                child: CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                ),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
           ),
           const SizedBox(height: 5),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 2,
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
               color: BBColor.pageBackground,
             ),
             child: Text(
-              'First Brewed: 09/2007',
+              'First Brewed: ${beer.firstBrewed}',
               style: TextStyle(
                   color: BBColor.faintWhite,
                   fontSize: 12,
@@ -58,7 +72,7 @@ Widget _image() {
   );
 }
 
-Widget _productDetail() {
+Widget _productDetail(Beer beer) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 12),
     decoration: BoxDecoration(
@@ -70,13 +84,13 @@ Widget _productDetail() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 5.0),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 3),
           child: Text(
-            "Pilsen Lager",
+            "${beer.name}",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 14,
             ),
@@ -85,7 +99,7 @@ Widget _productDetail() {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Text(
-            "A light, crisp and bitter IPA brewed with English description adding to get the beer",
+            "${beer.description}",
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -99,9 +113,9 @@ Widget _productDetail() {
           padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Row(
             children: [
-              _infoRow('ABV', "4.5"),
+              _infoRow('ABV', beer.abv.toString()),
               const SizedBox(width: 5),
-              _infoRow('IBU', "60"),
+              _infoRow('IBU', beer.ibu.toString()),
             ],
           ),
         ),

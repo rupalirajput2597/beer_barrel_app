@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../core.dart';
+
 class NetworkException implements Exception {
   int statusCode;
   String? message;
@@ -9,15 +11,9 @@ class NetworkException implements Exception {
 }
 
 class ApiClient {
-  ApiClient({
-    http.Client? httpClient,
-    this.baseUrl = "api.punkapi.com",
-    this.version = "/v2",
-  }) : httpClient = httpClient ?? http.Client();
-
-  final String baseUrl;
   final http.Client httpClient;
-  final String version;
+
+  ApiClient(this.httpClient);
 
   Future<List<dynamic>> fetchList(
     String path, {
@@ -57,7 +53,7 @@ class ApiClient {
       params.addAll(queryParams);
     }
 
-    final uri = Uri.https(baseUrl, version + path, params);
+    final uri = Uri.https(Constants.baseURL, "/v2$path", params);
     return uri;
   }
 }
