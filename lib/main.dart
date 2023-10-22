@@ -1,20 +1,20 @@
+import 'package:beer_barrel/account/bloc/account_cubit.dart';
 import 'package:beer_barrel/core/api/api.dart';
 import 'package:beer_barrel/core/core.dart';
 import 'package:beer_barrel/core/repository/data_repo.dart';
+import 'package:beer_barrel/firebase_options.dart';
 import 'package:beer_barrel/home/home.dart';
 import 'package:beer_barrel/navigator/app_router.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-DeviceType deviceType = DeviceType.mobile;
-
-enum DeviceType { web_mobile, web_desktop, mobile, ipad, desktop }
-
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   final apiClient = ApiClient(http.Client());
 
@@ -35,6 +35,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<HomeCubit>(
           create: (_) => HomeCubit(),
         ),
+        BlocProvider<AccountCubit>(
+          create: (_) => AccountCubit(),
+        ),
       ],
       child: MaterialApp.router(
         routeInformationParser: AppRouter.router.routeInformationParser,
@@ -50,25 +53,6 @@ class MyApp extends StatelessWidget {
         },
         // home: const HomeScreen(),
       ),
-    );
-  }
-}
-
-_setOrientation() {
-  // Lock orientation for most parts of the app
-  print("Device Type: $deviceType");
-  if (deviceType == DeviceType.ipad) {
-    SystemChrome.setPreferredOrientations(
-      [
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ],
-    );
-  } else {
-    SystemChrome.setPreferredOrientations(
-      [
-        DeviceOrientation.portraitUp,
-      ],
     );
   }
 }

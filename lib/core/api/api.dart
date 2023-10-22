@@ -53,7 +53,7 @@ class ApiClient {
       params.addAll(queryParams);
     }
 
-    final uri = Uri.https(Constants.baseURL, "/v2$path", params);
+    final uri = Uri.https(Constants.BASE_URL, "/v2$path", params);
     return uri;
   }
 }

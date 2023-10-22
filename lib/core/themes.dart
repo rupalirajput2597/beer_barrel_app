@@ -17,13 +17,18 @@ class BBAppTheme {
 class BBColor {
   static Color get pageBackground => hexToColor("#1E2022");
 
-  static Color get white => Colors.white;
+  static Color get white => hexToColor("#FFFFFF");
   static Color get transparent => Colors.transparent;
   static Color get primaryGrey => hexToColor("#AFB2B5");
   static Color get secondaryGrey => hexToColor("#77838F");
   static Color get faintWhite => hexToColor("#F2F2F2");
   static Color get grey => hexToColor("#D8D8D8");
-  static Color get red => Colors.red;
+  static Color get faintGrey => hexToColor("#EEEEEE");
+  static Color get grey1 => hexToColor("#979797");
+  static Color get red => hexToColor("#FF0F00");
+  static Color get linkedInBG => hexToColor("#0077B5");
+  static Color get facebookBG => hexToColor("#3D6AD6");
+  static Color get darkBlue => Colors.blue;
 }
 
 /// Construct a color from a hex code string, of the format #RRGGBB.
