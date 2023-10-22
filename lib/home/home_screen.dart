@@ -1,3 +1,4 @@
+import 'package:beer_barrel/core/common_widgets/error_page.dart';
 import 'package:beer_barrel/core/core.dart';
 import 'package:beer_barrel/navigator/app_router.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
         //showing loader while fetching products
         if (state is LoadingHomeState) {
           return _loader();
+        }
+        if (state is ErrorHomeState) {
+          return ErrorPage(
+            statusCode: state.statusCode,
+            onRefresh: () {
+              _cubit.fetchBeerList(context);
+            },
+          );
         }
         return Expanded(
           child: RefreshIndicator(

@@ -19,8 +19,10 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       DataRepository dataRepo = RepositoryProvider.of<DataRepository>(context);
 
-      List<Beer> results = await dataRepo.fetchBeersList(pageNumber) ?? [];
-
+      List<Beer>? results = await dataRepo.fetchBeersList(pageNumber);
+      if (results == null) {
+        throw Exception(100);
+      }
       if (results.isNotEmpty) {
         beers.addAll(results);
         pageNumber += 1;
@@ -28,16 +30,12 @@ class HomeCubit extends Cubit<HomeState> {
       } else {
         loadMore = false;
       }
-
-      print("homae -- ${pageNumber}");
       emit(DataFetchedSuccessHomeState());
     } on SocketException catch (e, s) {
-      print("$e: $s");
       pageNumber = 1;
       emit(ErrorHomeState(900));
     } catch (e) {
       pageNumber = 1;
-
       emit(ErrorHomeState(100));
     }
   }
