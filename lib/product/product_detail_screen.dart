@@ -20,7 +20,7 @@ class ProductDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomeBackButton(),
+          const CustomBackButton(),
           _scrollableView(context),
         ],
       ),
@@ -68,7 +68,6 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           name,
-          maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: BBColor.primaryGrey,
@@ -81,7 +80,6 @@ class ProductDetailScreen extends StatelessWidget {
         ),
         Text(
           tagline,
-          maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: BBColor.secondaryGrey,
@@ -96,7 +94,7 @@ class ProductDetailScreen extends StatelessWidget {
   Widget _previewImage(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.24, //200
+        height: 188,
         margin: const EdgeInsets.symmetric(vertical: 16),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(

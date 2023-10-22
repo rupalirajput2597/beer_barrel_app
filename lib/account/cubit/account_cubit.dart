@@ -1,38 +1,49 @@
-import 'dart:io';
-
-import 'package:beer_barrel/account/bloc/account_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../core/auth_mixin.dart';
 import '../../core/core.dart';
+import '../../core/google_exception.dart';
+import '../account.dart';
 
 late User user;
 
-class AccountCubit extends Cubit<AccountState> with AuthenticationMixin {
+class AccountCubit extends Cubit<AccountState> {
   AccountCubit() : super(InitialAccountState());
   static const secureStorage = FlutterSecureStorage();
 
   signInWithGoogle(BuildContext context) async {
     try {
-      await handleSignIn();
-    } on SocketException catch (e) {
-      emit(AccountErrorState());
+      AuthRepository repository =
+          RepositoryProvider.of<AuthRepository>(context);
+      GoogleSignInAccount? result =
+          await repository.loginWithSocialMedia(AccountType.google);
+
+      if (result == null) {
+        emit(UnauthenticatedAccountState());
+      } else {
+        _postLogin(result);
+        emit(AuthenticatedAccountState());
+      }
+    } on LoginWithGoogleFailure catch (e) {
+      emit(AccountErrorState(e.message));
     } catch (e) {
-      emit(AccountErrorState());
+      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
     }
   }
 
-  performLogOut(BuildContext context) async {
+  performGoogleLogOut(BuildContext context) async {
     try {
-      GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-      await googleSignIn.signOut();
+      AuthRepository repository =
+          RepositoryProvider.of<AuthRepository>(context);
+      repository.LogoutWith(AccountType.google);
       await secureStorage.deleteAll();
       emit(LogoutSuccessState());
+    } on LoginWithGoogleFailure catch (e) {
+      emit(AccountErrorState(e.message));
     } catch (e) {
-      emit(AccountErrorState());
+      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
     }
   }
 
@@ -51,35 +62,22 @@ class AccountCubit extends Cubit<AccountState> with AuthenticationMixin {
       } else {
         emit(UnauthenticatedAccountState());
       }
+    } on LoginWithGoogleFailure catch (e) {
+      emit(AccountErrorState(e.message));
     } catch (e) {
-      emit(AccountErrorState());
+      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
     }
   }
 
-  handleSignIn() async {
-    GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+  void _postLogin(GoogleSignInAccount result) {
+    secureStorage.write(key: Constants.EMAIL, value: result.email);
+    secureStorage.write(key: Constants.DISPLAY_NAME, value: result.displayName);
+    secureStorage.write(key: Constants.PROFILE_PICTURE, value: result.photoUrl);
 
-    try {
-      GoogleSignInAccount? result = await googleSignIn.signIn();
-      if (result == null) {
-        emit(UnauthenticatedAccountState());
-      } else {
-        secureStorage.write(key: Constants.EMAIL, value: result.email);
-        secureStorage.write(
-            key: Constants.DISPLAY_NAME, value: result.displayName);
-        secureStorage.write(
-            key: Constants.PROFILE_PICTURE, value: result.photoUrl);
-
-        user = User(
-            email: result.email,
-            name: result.displayName,
-            photoUrl: result.photoUrl);
-
-        emit(AuthenticatedAccountState());
-      }
-    } catch (error) {
-      emit(AccountErrorState());
-    }
+    user = User(
+        email: result.email,
+        name: result.displayName,
+        photoUrl: result.photoUrl);
   }
 }
 

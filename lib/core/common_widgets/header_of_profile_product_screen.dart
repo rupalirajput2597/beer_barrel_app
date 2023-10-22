@@ -10,7 +10,7 @@ class HeaderOfProfileAndProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: BBColor.white,
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: 280,
       child: Stack(
         alignment: Alignment.center,
         children: [

@@ -12,7 +12,7 @@ class LogoutButton extends StatelessWidget {
       color: BBColor.white,
       width: double.maxFinite,
       padding: const EdgeInsets.symmetric(
-        vertical: 16,
+        vertical: 12,
         horizontal: 18,
       ),
       child: ElevatedButton(
@@ -28,7 +28,7 @@ class LogoutButton extends StatelessWidget {
         ),
         onPressed: onPress,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Text(
             'Logout',
             style: TextStyle(

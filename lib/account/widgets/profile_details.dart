@@ -1,8 +1,7 @@
-import 'package:beer_barrel/account/bloc/account_cubit.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/core.dart';
-import 'widgets.dart';
+import '../account.dart';
 
 class ProfileDetailsWidget extends StatelessWidget {
   const ProfileDetailsWidget({super.key});

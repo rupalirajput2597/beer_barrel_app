@@ -35,8 +35,8 @@ class _SignInDemoState extends State<SignInDemo> {
 }
 */
 
-import 'package:beer_barrel/account/bloc/account_cubit.dart';
-import 'package:beer_barrel/account/bloc/account_state.dart';
+import 'package:beer_barrel/account/cubit/account_cubit.dart';
+import 'package:beer_barrel/account/cubit/account_state.dart';
 import 'package:beer_barrel/core/core.dart';
 import 'package:beer_barrel/navigator/app_router.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +69,23 @@ class _LoginScreenState extends State<LoginScreen> {
           body: BlocListener<AccountCubit, AccountState>(
             listener: (context, state) {
               if (state is AuthenticatedAccountState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      "Login Successful",
+                    ),
+                  ),
+                );
                 context.pushReplacement(AppRouter.homeScreenPath);
+              }
+              if (state is AccountErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.errorMessage!,
+                    ),
+                  ),
+                );
               }
             },
             child: Column(
@@ -90,9 +106,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w600,
                       color: BBColor.white),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
                 _googleSignIn(),
-                _facebookSignIn(),
-                _linkedinSignIn(),
+                // _facebookSignIn(),
+                //_linkedinSignIn(),
+
+                const SizedBox(
+                  height: 40,
+                )
               ],
             ),
           )),
@@ -106,8 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
       titleColor: BBColor.pageBackground,
       backgroundColor: BBColor.white,
       onPressed: () {
-        // context.pushReplacement(AppRouter.homeScreenPath);
-
         _cubit.signInWithGoogle(context);
       },
     );

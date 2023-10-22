@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../core.dart';
 
-class CustomeBackButton extends StatelessWidget {
-  const CustomeBackButton({super.key});
+class CustomBackButton extends StatelessWidget {
+  const CustomBackButton({super.key});
 
   @override
   Widget build(BuildContext context) {

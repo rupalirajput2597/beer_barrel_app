@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:beer_barrel/core/core.dart';
-import 'package:beer_barrel/core/repository/data_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/core.dart';
 import '../home.dart';
 
 class HomeCubit extends Cubit<HomeState> {

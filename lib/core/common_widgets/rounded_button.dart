@@ -1,5 +1,6 @@
-import 'package:beer_barrel/core/core.dart';
 import 'package:flutter/material.dart';
+
+import '../core.dart';
 
 class RoundedButton extends StatelessWidget {
   final Color color;

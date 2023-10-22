@@ -1,5 +1,4 @@
-import 'package:beer_barrel/core/api/api.dart';
-import 'package:beer_barrel/core/core.dart';
+import '../core.dart';
 
 class DataRepository {
   final ApiClient _apiClient;
@@ -14,9 +13,6 @@ class DataRepository {
           'page': page.toString(),
         },
       );
-
-      print(result);
-
       List<Beer> beers = [];
       for (Map<String, dynamic> element in result) {
         beers.add(Beer.fromJson(element));

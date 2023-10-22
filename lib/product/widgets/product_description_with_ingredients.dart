@@ -1,7 +1,7 @@
-import 'package:beer_barrel/product/widgets/ingridents_grid_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/core.dart';
+import '../product.dart';
 
 class ProductDescriptionWithIngridents extends StatelessWidget {
   final Beer? beer;
@@ -42,7 +42,7 @@ class ProductDescriptionWithIngridents extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          BeerIngridentsGridView(
+          BeerIngredientsGridView(
             beer: beer,
           ),
         ],
