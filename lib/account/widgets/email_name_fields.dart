@@ -31,9 +31,10 @@ class EmailNameFieldWidget extends StatelessWidget {
           child: Text(
             desc ?? "",
             style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: BBColor.pageBackground),
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: BBColor.pageBackground,
+            ),
           ),
         ),
       ],

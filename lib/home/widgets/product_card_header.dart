@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../core/core.dart';
 
-class ProductHeader extends StatelessWidget {
+//product card header with Image
+class ProductCardHeader extends StatelessWidget {
   final Beer? beer;
-  const ProductHeader({required this.beer, super.key});
+  const ProductCardHeader({
+    required this.beer,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

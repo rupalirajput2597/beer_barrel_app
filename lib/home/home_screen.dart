@@ -1,10 +1,9 @@
-import 'package:beer_barrel/core/common_widgets/error_page.dart';
-import 'package:beer_barrel/core/core.dart';
-import 'package:beer_barrel/navigator/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/core.dart';
+import '../navigator/app_router.dart';
 import 'home.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,11 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              RoundedButton.profile(
-                onTap: () {
-                  context.push(AppRouter.profilePath);
-                },
-              ),
+              _profileIcon(),
               _chooseBeerMsg(),
               _scrollableContent(),
             ],
@@ -64,11 +59,16 @@ class _HomeScreenState extends State<HomeScreen> {
   //Beer Initial Msg
   Widget _chooseBeerMsg() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 16,
+      ),
       child: Text(
         'Time to Cheers! Choose your beer...',
-        style:
-            TextStyle(color: BBColor.primaryGrey, fontWeight: FontWeight.w700),
+        style: TextStyle(
+          color: BBColor.primaryGrey,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -81,16 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is LoadingHomeState) {
           return _loader();
         }
+
+        //showing Error Widget
         if (state is ErrorHomeState) {
-          return ErrorPage(
-            statusCode: state.statusCode,
-            onRefresh: () {
-              _cubit.fetchBeerList(context);
-            },
-          );
+          return _errorPage(state);
         }
         return Expanded(
           child: RefreshIndicator(
+            color: BBColor.white,
             onRefresh: () async {
               _pullToRefresh();
             },
@@ -134,9 +132,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _loader() {
-    return Center(
-      child: CircularProgressIndicator(
-        color: BBColor.white,
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: CircularProgressIndicator(
+              color: BBColor.white,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _profileIcon() {
+    return RoundedButton.profile(
+      onTap: () {
+        context.push(AppRouter.profilePath);
+      },
+    );
+  }
+
+  _errorPage(ErrorHomeState state) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ErrorPage(
+            statusCode: state.statusCode,
+            onRefresh: () {
+              _cubit.fetchBeerList(context);
+            },
+          ),
+        ],
       ),
     );
   }

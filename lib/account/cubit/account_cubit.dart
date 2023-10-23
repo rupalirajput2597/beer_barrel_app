@@ -9,6 +9,7 @@ import '../account.dart';
 
 late User user;
 
+//Account business logic
 class AccountCubit extends Cubit<AccountState> {
   AccountCubit() : super(InitialAccountState());
   static const secureStorage = FlutterSecureStorage();
@@ -17,8 +18,9 @@ class AccountCubit extends Cubit<AccountState> {
     try {
       AuthRepository repository =
           RepositoryProvider.of<AuthRepository>(context);
-      GoogleSignInAccount? result =
-          await repository.loginWithSocialMedia(AccountType.google);
+      GoogleSignInAccount? result = await repository.loginWithSocialMedia(
+        AccountType.google,
+      );
 
       if (result == null) {
         emit(UnauthenticatedAccountState());

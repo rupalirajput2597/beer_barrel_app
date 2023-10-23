@@ -18,9 +18,14 @@ class ProfileScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is LogoutSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
+              SnackBar(
                 content: Text(
-                  "logout Successful",
+                  "Logout Successful!!",
+                  style: TextStyle(
+                    color: BBColor.darkBlue,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             );
@@ -65,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
             HeaderOfProfileAndProductScreen(
               child: _previewImage(context),
             ),
-            const ProfileDetailsWidget(),
+            const UserProfileDetailsWidget(),
           ],
         ),
       ),

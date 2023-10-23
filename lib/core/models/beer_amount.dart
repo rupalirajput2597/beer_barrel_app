@@ -10,9 +10,9 @@ class Amount {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['value'] = this.value;
-    data['unit'] = this.unit;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['value'] = value;
+    data['unit'] = unit;
     return data;
   }
 }

@@ -63,6 +63,7 @@ class ProductBottomDetails extends StatelessWidget {
     );
   }
 
+  //product Info row
   Widget _bottomRow() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),

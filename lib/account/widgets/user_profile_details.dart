@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/core.dart';
 import '../account.dart';
 
-class ProfileDetailsWidget extends StatelessWidget {
-  const ProfileDetailsWidget({super.key});
+class UserProfileDetailsWidget extends StatelessWidget {
+  const UserProfileDetailsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

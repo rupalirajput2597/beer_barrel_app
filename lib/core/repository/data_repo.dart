@@ -1,5 +1,6 @@
 import '../core.dart';
 
+//Beer Barrel User Data Repository
 class DataRepository {
   final ApiClient _apiClient;
 

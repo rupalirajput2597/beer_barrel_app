@@ -1,3 +1,4 @@
+import 'package:beer_barrel/core/core.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class NetworkImageWidget extends StatelessWidget {
           children: [
             CircularProgressIndicator(
               value: downloadProgress.progress,
+              color: BBColor.white,
             )
           ],
         ),

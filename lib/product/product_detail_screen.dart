@@ -21,21 +21,23 @@ class ProductDetailScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const CustomBackButton(),
-          _scrollableView(context),
+          _productIContent(context),
         ],
       ),
     );
   }
 
-  Widget _scrollableView(BuildContext context) {
+  Widget _productIContent(BuildContext context) {
     return Flexible(
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            //product header with black BG
             _header(context),
-            ProductDescriptionWithIngridents(
+            //product Description
+            ProductDescriptionWithIngredients(
               beer: selectedBeer,
             ),
           ],
@@ -44,6 +46,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
+  //product header with black BG
   Widget _header(BuildContext context) {
     return HeaderOfProfileAndProductScreen(
       child: Padding(
@@ -91,6 +94,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
+  //Beer Image
   Widget _previewImage(BuildContext context) {
     return Center(
       child: Container(

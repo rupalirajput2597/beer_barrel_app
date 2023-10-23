@@ -18,17 +18,11 @@ class ErrorPage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Image.asset(
-                AssetHelper.appIconMedium,
-              ),
+            Image.asset(
+              AssetHelper.appIconMedium,
+              height: 200,
             ),
             const SizedBox(
               height: 20,

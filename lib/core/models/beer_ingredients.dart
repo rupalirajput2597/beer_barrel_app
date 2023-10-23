@@ -11,27 +11,27 @@ class BeerIngredients {
     if (json['malt'] != null) {
       malt = <Malt>[];
       json['malt'].forEach((v) {
-        malt!.add(new Malt.fromJson(v));
+        malt!.add(Malt.fromJson(v));
       });
     }
     if (json['hops'] != null) {
       hops = <Hops>[];
       json['hops'].forEach((v) {
-        hops!.add(new Hops.fromJson(v));
+        hops!.add(Hops.fromJson(v));
       });
     }
     yeast = json['yeast'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.malt != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (malt != null) {
       data['malt'] = this.malt!.map((v) => v.toJson()).toList();
     }
-    if (this.hops != null) {
-      data['hops'] = this.hops!.map((v) => v.toJson()).toList();
+    if (hops != null) {
+      data['hops'] = hops!.map((v) => v.toJson()).toList();
     }
-    data['yeast'] = this.yeast;
+    data['yeast'] = yeast;
     return data;
   }
 }
@@ -44,12 +44,11 @@ class Malt {
 
   Malt.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    amount =
-        json['amount'] != null ? new Amount.fromJson(json['amount']) : null;
+    amount = json['amount'] != null ? Amount.fromJson(json['amount']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = this.name;
     if (this.amount != null) {
       data['amount'] = this.amount!.toJson();
@@ -68,14 +67,13 @@ class Hops {
 
   Hops.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    amount =
-        json['amount'] != null ? new Amount.fromJson(json['amount']) : null;
+    amount = json['amount'] != null ? Amount.fromJson(json['amount']) : null;
     add = json['add'];
     attribute = json['attribute'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = this.name;
     if (this.amount != null) {
       data['amount'] = this.amount!.toJson();

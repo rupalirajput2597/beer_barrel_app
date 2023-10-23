@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import '../../core/core.dart';
 import '../product.dart';
 
-class ProductDescriptionWithIngridents extends StatelessWidget {
+//product Description
+class ProductDescriptionWithIngredients extends StatelessWidget {
   final Beer? beer;
-  const ProductDescriptionWithIngridents({required this.beer, super.key});
+  const ProductDescriptionWithIngredients({
+    required this.beer,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +61,20 @@ class ProductDescriptionWithIngridents extends StatelessWidget {
         Text(
           "$title",
           style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: BBColor.pageBackground),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: BBColor.pageBackground,
+          ),
         ),
         const SizedBox(height: 12),
         Text(
           desc ?? "",
           style: TextStyle(
-              height: 1.7,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: BBColor.secondaryGrey),
+            height: 1.7,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: BBColor.secondaryGrey,
+          ),
         ),
       ],
     );

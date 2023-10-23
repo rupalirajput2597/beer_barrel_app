@@ -1,6 +1,7 @@
 import 'package:beer_barrel/core/core.dart';
 import 'package:flutter/material.dart';
 
+//Confirmation dialog while performing actions like logout
 class ConfirmationDialog extends StatelessWidget {
   final String? titleText;
   final String? messageText;

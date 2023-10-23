@@ -1,10 +1,10 @@
-import 'package:beer_barrel/account/cubit/account_cubit.dart';
-import 'package:beer_barrel/account/cubit/account_state.dart';
-import 'package:beer_barrel/core/core.dart';
-import 'package:beer_barrel/navigator/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../account/account.dart';
+import '../core/core.dart';
+import '../navigator/app_router.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -16,9 +16,11 @@ class SplashScreen extends StatelessWidget {
         body: BlocConsumer<AccountCubit, AccountState>(
           listener: (context, state) {
             if (state is AuthenticatedAccountState) {
+              //Navigating to Home page if user is already logged-in
               context.pushReplacement(AppRouter.homeScreenPath);
             }
             if (state is UnauthenticatedAccountState) {
+              //Navigating to Login page if user is not logged-in yet
               context.pushReplacement(AppRouter.loginScreenPath);
             }
           },

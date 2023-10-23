@@ -1,3 +1,4 @@
+//Account state
 abstract class AccountState {}
 
 class InitialAccountState extends AccountState {}

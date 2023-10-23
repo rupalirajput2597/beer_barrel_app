@@ -1,3 +1,4 @@
+//Beer Barrel Assets Helper
 class AssetHelper {
   static const profileIcon = "assets/images/profile_icon.png";
   static const imageBackground = "assets/images/image_bg.png";
@@ -11,6 +12,7 @@ class AssetHelper {
   static const linkedinIconLarge = "assets/linkedin_logo/ic_linkedin@3x.png";
 }
 
+//Beer Barrel Constants
 class Constants {
   static const BASE_URL = "api.punkapi.com";
   static const DISPLAY_NAME = "displayName";

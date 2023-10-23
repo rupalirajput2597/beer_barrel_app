@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core.dart';
 
+//Rounded shape image button
 class RoundedButton extends StatelessWidget {
   final Color color;
   final String imagePath;
@@ -32,7 +33,9 @@ class RoundedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           color: color,
         ),
-        child: Image.asset(imagePath),
+        child: Image.asset(
+          imagePath,
+        ),
       ),
     );
   }

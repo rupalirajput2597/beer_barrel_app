@@ -1,40 +1,3 @@
-/*
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
-class SignInDemo extends StatefulWidget {
-  @override
-  _SignInDemoState createState() => _SignInDemoState();
-}
-
-class _SignInDemoState extends State<SignInDemo> {
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
-
-  _handleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Google Sign-In Demo'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: _handleSignIn,
-          child: Text('Sign in with Google'),
-        ),
-      ),
-    );
-  }
-}
-*/
-
 import 'package:beer_barrel/account/cubit/account_cubit.dart';
 import 'package:beer_barrel/account/cubit/account_state.dart';
 import 'package:beer_barrel/core/core.dart';
@@ -69,14 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           body: BlocListener<AccountCubit, AccountState>(
             listener: (context, state) {
               if (state is AuthenticatedAccountState) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      "Login Successful",
-                    ),
-                  ),
-                );
-                context.pushReplacement(AppRouter.homeScreenPath);
+                _navigateToHome();
               }
               if (state is AccountErrorState) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -112,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 _googleSignIn(),
                 // _facebookSignIn(),
                 //_linkedinSignIn(),
-
                 const SizedBox(
                   height: 40,
                 )
@@ -140,8 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
       logo: AssetHelper.facebookIconLarge,
       title: "Facebook",
       titleColor: BBColor.white,
-      backgroundColor: BBColor.facebookBG, onPressed: () {},
-      //onPressed: () {},
+      backgroundColor: BBColor.facebookBG,
+      onPressed: () {},
     );
   }
 
@@ -153,5 +108,21 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: BBColor.linkedInBG,
       onPressed: () {},
     );
+  }
+
+  void _navigateToHome() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Login Successful !!!",
+          style: TextStyle(
+            color: BBColor.darkBlue,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+    context.pushReplacement(AppRouter.homeScreenPath);
   }
 }

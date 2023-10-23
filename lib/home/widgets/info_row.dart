@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/core.dart';
 
+//product info row Widget
 class InfoRow extends StatelessWidget {
   final String? title;
   final String? value;

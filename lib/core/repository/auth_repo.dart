@@ -2,6 +2,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 enum AccountType { google, facebook, linkedin }
 
+//Beer Barrel User Authentication Repository
 class AuthRepository {
   final GoogleSignIn googleSignIn;
 

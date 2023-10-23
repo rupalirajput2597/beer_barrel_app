@@ -12,7 +12,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ProductHeader(beer: beer),
+        ProductCardHeader(beer: beer),
         ProductBottomDetails(beer: beer),
       ],
     );
