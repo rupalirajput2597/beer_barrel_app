@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:linkedin_login/linkedin_login.dart';
 
 import '../../core/core.dart';
 import '../../core/google_exception.dart';
 import '../account.dart';
 
-late User user;
+late User? user;
+bool keepSession = false;
+String? loggedInType;
 
 //Account business logic
 class AccountCubit extends Cubit<AccountState> {
@@ -18,14 +20,15 @@ class AccountCubit extends Cubit<AccountState> {
     try {
       AuthRepository repository =
           RepositoryProvider.of<AuthRepository>(context);
-      GoogleSignInAccount? result = await repository.loginWithSocialMedia(
+      User? userResult = await repository.loginWithSocialMedia(
         AccountType.google,
       );
 
-      if (result == null) {
+      if (userResult == null) {
         emit(UnauthenticatedAccountState());
       } else {
-        _postLogin(result);
+        user = userResult;
+        _postLogin(AccountType.google.name);
         emit(AuthenticatedAccountState());
       }
     } on LoginWithGoogleFailure catch (e) {
@@ -35,12 +38,36 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  performGoogleLogOut(BuildContext context) async {
+  signInWithLinkedIn(
+      BuildContext context, LinkedInUserModel? linkedinUser) async {
     try {
       AuthRepository repository =
           RepositoryProvider.of<AuthRepository>(context);
-      repository.LogoutWith(AccountType.google);
-      await secureStorage.deleteAll();
+      User? userResult = await repository.loginWithSocialMedia(
+          AccountType.linkedin,
+          linkedinUser: linkedinUser);
+      if (userResult == null) {
+        emit(UnauthenticatedAccountState());
+      } else {
+        user = userResult;
+        _postLogin(AccountType.linkedin.name);
+        emit(AuthenticatedAccountState());
+      }
+    } on LoginWithGoogleFailure catch (e) {
+      emit(AccountErrorState(e.message));
+    } catch (e) {
+      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
+    }
+  }
+
+  performLogout(BuildContext context) async {
+    try {
+      if (loggedInType == AccountType.google.name) {
+        AuthRepository repository =
+            RepositoryProvider.of<AuthRepository>(context);
+        repository.LogoutWith(AccountType.google);
+      }
+      _postLogout();
       emit(LogoutSuccessState());
     } on LoginWithGoogleFailure catch (e) {
       emit(AccountErrorState(e.message));
@@ -57,11 +84,15 @@ class AccountCubit extends Cubit<AccountState> {
       String? photoURL =
           await secureStorage.read(key: Constants.PROFILE_PICTURE);
 
-      user = User(email: email, name: name, photoUrl: photoURL);
-
       if (name != null && email != null) {
+        keepSession = true;
+        loggedInType =
+            await secureStorage.read(key: Constants.LoggedInAccountType);
+        user = User(email: email, name: name, photoUrl: photoURL);
+
         emit(AuthenticatedAccountState());
       } else {
+        keepSession = false;
         emit(UnauthenticatedAccountState());
       }
     } on LoginWithGoogleFailure catch (e) {
@@ -71,30 +102,21 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  void _postLogin(GoogleSignInAccount result) {
-    secureStorage.write(key: Constants.EMAIL, value: result.email);
-    secureStorage.write(key: Constants.DISPLAY_NAME, value: result.displayName);
-    secureStorage.write(key: Constants.PROFILE_PICTURE, value: result.photoUrl);
+  void _postLogin(String loggedInWith) async {
+    await secureStorage.write(key: Constants.EMAIL, value: user?.email);
+    await secureStorage.write(key: Constants.DISPLAY_NAME, value: user?.name);
+    await secureStorage.write(
+        key: Constants.PROFILE_PICTURE, value: user?.photoUrl);
+    await secureStorage.write(
+        key: Constants.LoggedInAccountType, value: loggedInType);
+    keepSession = true;
+    loggedInType = loggedInWith;
+  }
 
-    user = User(
-        email: result.email,
-        name: result.displayName,
-        photoUrl: result.photoUrl);
+  void _postLogout() async {
+    user = null;
+    keepSession = false;
+    loggedInType = null;
+    await secureStorage.deleteAll();
   }
 }
-
-/*    // try {
-    //   final authResult = await googleAuthentication();
-    //   print(
-    //       "authResult.userName -- ${authResult.userName}, email -- ${authResult.email}");
-    //
-    //   final credential = GoogleAuthProvider.credential(
-    //     accessToken: authResult.authToken,
-    //     idToken: authResult.authId,
-    //   );
-    //   final userCred =
-    //       await FirebaseAuth.instance.signInWithCredential(credential);
-    //   print("userCred -- ${userCred.user?.email}");
-    // } catch (error) {
-    //   print("error -- ${error}");
-    // } */

@@ -16,11 +16,11 @@ class UserProfileDetailsWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          EmailNameFieldWidget(title: "Name", desc: "${user.name}"),
+          EmailNameFieldWidget(title: "Name", desc: "${user?.name}"),
           const SizedBox(
             height: 20,
           ),
-          EmailNameFieldWidget(title: "Email Id", desc: "${user.email}"),
+          EmailNameFieldWidget(title: "Email Id", desc: "${user?.email}"),
           const SizedBox(
             height: 20,
           ),
