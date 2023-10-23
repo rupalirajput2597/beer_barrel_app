@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core.dart';
 
+//Common header get used in Profile and Product screen
 class HeaderOfProfileAndProductScreen extends StatelessWidget {
   final Widget child;
   const HeaderOfProfileAndProductScreen({required this.child, super.key});
@@ -10,7 +11,7 @@ class HeaderOfProfileAndProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: BBColor.white,
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: 280,
       child: Stack(
         alignment: Alignment.center,
         children: [

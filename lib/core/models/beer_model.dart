@@ -113,6 +113,21 @@ class Beer {
     data['contributed_by'] = contributedBy;
     return data;
   }
+
+  //Beer Ingredients map
+  Map<String, String?> getIngredientsMap() {
+    Map<String, String?> ingredientContent = {
+      "ABV": "$abv",
+      "IBU": "$ibu",
+      "Target FG": "$targetFg",
+      "Target OG": "$targetOg",
+      "EBC": "$ebc",
+      "SRM": "$srm",
+      "PH": "$ph",
+      "ATTENTION LEVEL": "$attenuationLevel",
+    };
+    return ingredientContent;
+  }
 }
 
 class Volume {

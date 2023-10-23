@@ -1,14 +1,14 @@
-import 'package:beer_barrel/account/bloc/account_cubit.dart';
-import 'package:beer_barrel/core/api/api.dart';
-import 'package:beer_barrel/core/core.dart';
-import 'package:beer_barrel/core/repository/data_repo.dart';
 import 'package:beer_barrel/firebase_options.dart';
-import 'package:beer_barrel/home/home.dart';
-import 'package:beer_barrel/navigator/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+
+import 'account/account.dart';
+import 'core/core.dart';
+import 'home/home.dart';
+import 'navigator/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,16 +17,25 @@ void main() async {
   );
 
   final apiClient = ApiClient(http.Client());
+  final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
 
-  runApp(MultiRepositoryProvider(providers: [
-    RepositoryProvider(
-      create: (context) => DataRepository(apiClient),
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => DataRepository(apiClient),
+        ),
+        RepositoryProvider(
+          create: (context) => AuthRepository(googleSignIn),
+        ),
+      ],
+      child: const BeerBarrelApp(),
     ),
-  ], child: const MyApp()));
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class BeerBarrelApp extends StatelessWidget {
+  const BeerBarrelApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +60,6 @@ class MyApp extends StatelessWidget {
             child: child!,
           );
         },
-        // home: const HomeScreen(),
       ),
     );
   }

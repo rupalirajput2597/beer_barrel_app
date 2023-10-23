@@ -1,10 +1,9 @@
-import 'package:beer_barrel/core/core.dart';
-import 'package:beer_barrel/core/widgets/rounded_button.dart';
-import 'package:beer_barrel/navigator/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/core.dart';
+import '../navigator/app_router.dart';
 import 'home.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,17 +20,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _cubit = context.read<HomeCubit>();
-
     _cubit.fetchBeerList(context);
     _scrollController = ScrollController();
+    _onScrollPagination();
+    super.initState();
+  }
 
+  //pagination on scroll
+  _onScrollPagination() {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         _cubit.fetchBeerList(context);
       }
     });
-    super.initState();
   }
 
   @override
@@ -44,59 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              RoundedButton.profile(
-                onTap: () {
-                  context.push(AppRouter.profilePath);
-                },
-              ),
+              _profileIcon(),
               _chooseBeerMsg(),
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  if (state is LoadingHomeState) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: BBColor.white,
-                      ),
-                    );
-                  }
-
-                  return Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        _cubit.beers = [];
-                        _cubit.pageNumber = 1;
-                        _cubit.fetchBeerList(context);
-                      },
-                      child: GridView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.all(10),
-                        itemCount: _cubit.beers.length,
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 16,
-                          crossAxisSpacing: 12,
-                          mainAxisExtent:
-                              MediaQuery.of(context).size.height / 2.8,
-                        ),
-                        itemBuilder: (context, i) {
-                          return GestureDetector(
-                            onTap: () {
-                              context.push(
-                                AppRouter.productDetailsPath,
-                                extra: _cubit.beers[i],
-                              );
-                            },
-                            child: ProductCard(
-                              _cubit.beers[i],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                },
-              )
+              _scrollableContent(),
             ],
           ),
         ),
@@ -104,31 +56,118 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // _profileIcon() {
-  //   return GestureDetector(
-  //     onTap: () {
-  //     },
-  //     child: Container(
-  //       margin: const EdgeInsets.only(left: 8),
-  //       height: 36,
-  //       width: 36,
-  //       decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(12),
-  //           image: const DecorationImage(
-  //             image: AssetImage(AssetHelper.profileIcon),
-  //           ),
-  //           color: BBColor.white),
-  //     ),
-  //   );
-  // }
-
+  //Beer Initial Msg
   Widget _chooseBeerMsg() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 16,
+      ),
       child: Text(
         'Time to Cheers! Choose your beer...',
-        style:
-            TextStyle(color: BBColor.primaryGrey, fontWeight: FontWeight.w700),
+        style: TextStyle(
+          color: BBColor.primaryGrey,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+
+  //Beer Products List - Grid-List
+  _scrollableContent() {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        //showing loader while fetching products
+        if (state is LoadingHomeState) {
+          return _loader();
+        }
+
+        //showing Error Widget
+        if (state is ErrorHomeState) {
+          return _errorPage(state);
+        }
+        return Expanded(
+          child: RefreshIndicator(
+            color: BBColor.white,
+            onRefresh: () async {
+              _pullToRefresh();
+            },
+            child: _gridView(),
+          ),
+        );
+      },
+    );
+  }
+
+  _pullToRefresh() async {
+    _cubit.beers = [];
+    _cubit.pageNumber = 1;
+    _cubit.fetchBeerList(context);
+  }
+
+  Widget _gridView() {
+    return GridView.builder(
+      controller: _scrollController,
+      padding: const EdgeInsets.all(10),
+      itemCount: _cubit.beers.length,
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 12,
+        mainAxisExtent: 296,
+      ),
+      itemBuilder: (context, i) {
+        return GestureDetector(
+          onTap: () {
+            context.push(
+              AppRouter.productDetailsPath,
+              extra: _cubit.beers[i],
+            );
+          },
+          child: ProductCard(_cubit.beers[i]),
+        );
+      },
+    );
+  }
+
+  Widget _loader() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: CircularProgressIndicator(
+              color: BBColor.white,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _profileIcon() {
+    return RoundedButton.profile(
+      onTap: () {
+        context.push(AppRouter.profilePath);
+      },
+    );
+  }
+
+  _errorPage(ErrorHomeState state) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ErrorPage(
+            statusCode: state.statusCode,
+            onRefresh: () {
+              _cubit.fetchBeerList(context);
+            },
+          ),
+        ],
       ),
     );
   }

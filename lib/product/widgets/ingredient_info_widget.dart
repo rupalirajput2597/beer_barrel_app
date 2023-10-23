@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../core/core.dart';
 
-class IngridentsInfoWidget extends StatelessWidget {
-  final MapEntry<String, dynamic> ingrident;
-  const IngridentsInfoWidget({required this.ingrident, super.key});
+class IngredientsInfoWidget extends StatelessWidget {
+  final MapEntry<String, dynamic> ingredient;
+  const IngredientsInfoWidget({required this.ingredient, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,9 @@ class IngridentsInfoWidget extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: BBColor.pageBackground),
-          child: Image.asset(AssetHelper.cheersImage),
+          child: Image.asset(
+            AssetHelper.cheersImage,
+          ),
         ),
         Flexible(
           child: Column(
@@ -28,7 +30,7 @@ class IngridentsInfoWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                ingrident.key,
+                ingredient.key,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 14,
@@ -37,11 +39,12 @@ class IngridentsInfoWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                ingrident.value.toString(),
+                ingredient.value.toString(),
                 style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: BBColor.secondaryGrey),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: BBColor.secondaryGrey,
+                ),
               ),
             ],
           ),

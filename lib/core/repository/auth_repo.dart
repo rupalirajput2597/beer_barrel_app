@@ -1,7 +1,50 @@
-import 'package:beer_barrel/core/api/api.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+enum AccountType { google, facebook, linkedin }
+
+//Beer Barrel User Authentication Repository
 class AuthRepository {
-  final ApiClient _apiClient;
+  final GoogleSignIn googleSignIn;
 
-  AuthRepository(this._apiClient);
+  AuthRepository(this.googleSignIn);
+
+  loginWithSocialMedia(AccountType loginWith) async {
+    switch (loginWith) {
+      case AccountType.google:
+        return await handleGoogleSignin();
+      case AccountType.facebook:
+        ;
+      case AccountType.linkedin:
+        ;
+    }
+  }
+
+  LogoutWith(AccountType logoutWith) async {
+    switch (logoutWith) {
+      case AccountType.google:
+        return await handleGoogleLogout();
+      case AccountType.facebook:
+        ;
+      case AccountType.linkedin:
+        ;
+    }
+  }
+
+  Future<GoogleSignInAccount?> handleGoogleSignin() async {
+    try {
+      GoogleSignInAccount? result = await googleSignIn.signIn();
+      return result;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<GoogleSignInAccount?> handleGoogleLogout() async {
+    try {
+      GoogleSignInAccount? result = await googleSignIn.signOut();
+      return result;
+    } catch (e) {
+      return null;
+    }
+  }
 }

@@ -4,12 +4,6 @@ import 'package:http/http.dart' as http;
 
 import '../core.dart';
 
-class NetworkException implements Exception {
-  int statusCode;
-  String? message;
-  NetworkException(this.statusCode, {this.message});
-}
-
 class ApiClient {
   final http.Client httpClient;
 
@@ -30,7 +24,7 @@ class ApiClient {
 
   List<dynamic> _handleResponse(http.Response response) {
     if (response.statusCode < 200 || response.statusCode > 204) {
-      throw NetworkException(response.statusCode);
+      throw BBException(response.statusCode);
     }
     try {
       if (response.body.isNotEmpty) {
@@ -56,4 +50,10 @@ class ApiClient {
     final uri = Uri.https(Constants.BASE_URL, "/v2$path", params);
     return uri;
   }
+}
+
+class BBException implements Exception {
+  int statusCode;
+  String? message;
+  BBException(this.statusCode, {this.message});
 }

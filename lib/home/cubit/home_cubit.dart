@@ -1,45 +1,42 @@
 import 'dart:io';
 
-import 'package:beer_barrel/core/core.dart';
-import 'package:beer_barrel/core/repository/data_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/core.dart';
 import '../home.dart';
 
+//Home Business Logic
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(InitialHomeState());
 
   List<Beer> beers = [];
   int pageNumber = 1;
-  bool loadMore = false;
 
+  //Fetching Beer List
   fetchBeerList(BuildContext context) async {
+    //emitting appropriate state for pagination
     (pageNumber == 1) ? emit(LoadingHomeState()) : emit(LoadMoreHomeState());
-
     try {
       DataRepository dataRepo = RepositoryProvider.of<DataRepository>(context);
-
-      List<Beer> results = await dataRepo.fetchBeersList(pageNumber) ?? [];
-
+      List<Beer>? results = await dataRepo.fetchBeersList(pageNumber);
+      if (results == null) throw Exception(100);
       if (results.isNotEmpty) {
         beers.addAll(results);
         pageNumber += 1;
-        loadMore = true;
-      } else {
-        loadMore = false;
       }
-
-      print("homae -- ${pageNumber}");
       emit(DataFetchedSuccessHomeState());
     } on SocketException catch (e, s) {
-      print("$e: $s");
-      pageNumber = 1;
+      _resetPage();
       emit(ErrorHomeState(900));
     } catch (e) {
-      pageNumber = 1;
-
+      _resetPage();
       emit(ErrorHomeState(100));
     }
+  }
+
+  //resetting page
+  _resetPage() {
+    pageNumber = 1;
   }
 }

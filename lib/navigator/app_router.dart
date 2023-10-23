@@ -1,13 +1,14 @@
-import 'package:beer_barrel/core/core.dart';
-import 'package:beer_barrel/home/home_screen.dart';
-import 'package:beer_barrel/product/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../account/login_screen.dart';
-import '../account/profile_screen.dart';
+import '../account/user_profile_screen.dart';
+import '../core/core.dart';
+import '../home/home.dart';
+import '../product/product_detail_screen.dart';
 import '../splash/splash_screen.dart';
 
+//go_router implementation
 class AppRouter {
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
   static const productDetailsPath = "/product";
