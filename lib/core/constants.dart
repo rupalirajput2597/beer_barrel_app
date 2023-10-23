@@ -18,4 +18,9 @@ class Constants {
   static const DISPLAY_NAME = "displayName";
   static const EMAIL = "email";
   static const PROFILE_PICTURE = "profilePicture";
+  static const LoggedInAccountType = "loggedInAccountType";
+
+  static const String redirectUrl = 'https://www.youtube.com/callback';
+  static const String clientId = '776rnw4e4izlvg';
+  static const String clientSecret = 'rQEgboUHMLcQi59v';
 }

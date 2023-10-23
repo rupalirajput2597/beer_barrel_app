@@ -83,14 +83,14 @@ class ProfileScreen extends StatelessWidget {
       padding: const EdgeInsets.only(top: 40),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: user.photoUrl == null
+        child: user?.photoUrl == null
             ? Container(
                 color: BBColor.grey,
                 height: 190,
                 width: 190,
                 child: Center(
                   child: Text(
-                    "${user.name?[0]}",
+                    "${user?.name?[0]}",
                     style: TextStyle(
                         color: BBColor.pageBackground.withOpacity(0.5),
                         fontSize: 36,
@@ -99,7 +99,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               )
             : NetworkImageWidget(
-                imageUrl: user.photoUrl ?? "",
+                imageUrl: user?.photoUrl ?? "",
                 height: 190,
                 width: 190,
               ),
@@ -112,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
       titleText: "Logout",
       messageText: "Are You sure, Do you Want to Logout?",
       onConfirm: () {
-        context.read<AccountCubit>().performGoogleLogOut(context);
+        context.read<AccountCubit>().performLogout(context);
       },
     );
   }

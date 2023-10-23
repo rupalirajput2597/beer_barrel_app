@@ -23,7 +23,6 @@ To set up and run the application, please ensure you have the following:
 - Dart SDK (minimum version 3.0.0)
 - A code editor (e.g., Visual Studio Code or Android Studio)
 - Emulator or physical device for testing
-- Firebase project with Firebase Authentication enabled
 
 ## Installation Instructions
 
@@ -56,55 +55,10 @@ Install the required dependencies:
 flutter pub get
 ```
 
-Configure Firebase Authentication:
-1. Create a new Firebase project in the Firebase Console.
-2. Enable Firebase Authentication in your project.
-3. Download the google-services.json file from the Firebase project settings.
-4. Place the google-services.json file in the android/app directory of your Flutter project.
-5. Update the android/build.gradle file as follows:
-```groovy
-buildscript {
-    dependencies {
-        // ...
-        classpath 'com.google.gms:google-services:version-number' // Update the version number
-    }
-}
-
-allprojects {
-    // ...
-    repositories {
-        // ...
-        google() // Add this line
-    }
-}
-```
-
-Configure Firebase function
-1. **Prerequisites:**
-    - Make sure you have the Firebase SDK for Flutter installed in your project. You can follow the official FlutterFire documentation for installation instructions.
-    - Additionally, you will need to have Node.js and npm (Node Package Manager) installed on your machine to work with Firebase Functions.
-
-2. **Set up Firebase Functions:**
-    - Open your project in the Firebase console (https://console.firebase.google.com) and navigate to the project settings.
-    - In the "General" tab, scroll down to the "Your apps" section and click on the "Add app" button.
-    - Select the platform "Web" and register your app by following the instructions provided. Make sure to copy the Firebase configuration values (e.g., API key, project ID) as you will need them later.
-
-3. **Create a Firebase Functions project:**
-    - Open a command-line interface and navigate to the root directory of your Flutter project.
-    - Run the following command to create a new Firebase Functions project:
-      ```
-      firebase init functions
-      ```
-    - Choose an existing Firebase project or create a new one.
-    - Select the option to set up TypeScript as the language for your functions.
-    - Install the required dependencies by running the following command:
-      ```
-      cd functions
-      npm install firebase-admin
       ```
 
 
-Now the Beer-Barrel app is configured with Firebase Authentication. Users can log in using the social login options provided (Google).
+Now the Beer-Barrel app is configured with SocialMedia Authentication. Users can log in using the social login options provided (Google, LinkedIN).
 
 ## Dependencies and Libraries
 
@@ -115,8 +69,6 @@ The application utilizes the following dependencies and libraries:
 - **go_router**: A routing library for Flutter, used for handling navigation between different screens in the application.
 
 - **http**: A package for making HTTP requests, used for fetching data from the backend API.
-
-- **firebase_auth**: The official Firebase plugin for Flutter, used for integrating Firebase Authentication.
 
 - **cached_network_image**: package in Flutter provides efficient caching and loading of network images, allowing you to display images from the internet with improved performance and reduced network requests.
 - 

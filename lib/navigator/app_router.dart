@@ -1,3 +1,4 @@
+import 'package:beer_barrel/account/widgets/linked_in_redirect.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,6 +17,7 @@ class AppRouter {
   static const profilePath = "/profile";
   static const loginScreenPath = "/login";
   static const splashScreenPath = "/splash";
+  static const linkedInRedirect = "/linkedIn-redirect";
 
   static final router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -49,6 +51,12 @@ class AppRouter {
         path: profilePath,
         builder: (context, state) {
           return const ProfileScreen();
+        },
+      ),
+      GoRoute(
+        path: linkedInRedirect,
+        builder: (context, state) {
+          return const LinkedInRedirect();
         },
       ),
     ],

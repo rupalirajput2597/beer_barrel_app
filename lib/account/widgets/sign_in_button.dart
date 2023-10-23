@@ -39,15 +39,18 @@ class SignInButton extends StatelessWidget {
                   logo,
                 ),
               ),
-              const SizedBox(
-                width: 28,
-              ),
-              Text(
-                title,
-                style: TextStyle(
-                  color: titleColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 28,
+                  left: 36,
+                ),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: titleColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

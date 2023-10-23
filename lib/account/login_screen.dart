@@ -49,9 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
                     child: Image.asset(
                       AssetHelper.appIconMedium,
+                      // height: 200,
                     ),
                   ),
                 ),
@@ -63,11 +64,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: BBColor.white),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 16,
                 ),
                 _googleSignIn(),
                 // _facebookSignIn(),
-                //_linkedinSignIn(),
+                _linkedinSignIn(),
                 const SizedBox(
                   height: 40,
                 )
@@ -89,24 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-//Meta now requires all NEWLY entered package names to be associated with a valid google play store URL https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432
-  Widget _facebookSignIn() {
-    return SignInButton(
-      logo: AssetHelper.facebookIconLarge,
-      title: "Facebook",
-      titleColor: BBColor.white,
-      backgroundColor: BBColor.facebookBG,
-      onPressed: () {},
-    );
-  }
-
   Widget _linkedinSignIn() {
     return SignInButton(
       logo: AssetHelper.linkedinIconLarge,
       title: "LinkedIn",
       titleColor: BBColor.white,
       backgroundColor: BBColor.linkedInBG,
-      onPressed: () {},
+      onPressed: () {
+        context.push(AppRouter.linkedInRedirect);
+      },
     );
   }
 
@@ -124,5 +116,16 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
     context.pushReplacement(AppRouter.homeScreenPath);
+  }
+
+//facebook now requires all NEWLY entered package names to be associated with a valid google play store URL https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432
+  Widget _facebookSignIn() {
+    return SignInButton(
+      logo: AssetHelper.facebookIconLarge,
+      title: "Facebook",
+      titleColor: BBColor.white,
+      backgroundColor: BBColor.facebookBG,
+      onPressed: () {},
+    );
   }
 }

@@ -1,4 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:linkedin_login/linkedin_login.dart';
+
+import '../core.dart';
 
 enum AccountType { google, facebook, linkedin }
 
@@ -8,14 +11,26 @@ class AuthRepository {
 
   AuthRepository(this.googleSignIn);
 
-  loginWithSocialMedia(AccountType loginWith) async {
+  // Future<User> loginWithSocialMedia(AccountType loginWith) async {
+  //   switch (loginWith) {
+  //     case AccountType.google:
+  //       return await handleGoogleSignin();
+  //     case AccountType.facebook:
+  //       ;
+  //     case AccountType.linkedin:
+  //       ;
+  //   }
+  // }
+
+  Future<User?> loginWithSocialMedia(AccountType loginWith,
+      {LinkedInUserModel? linkedinUser}) async {
     switch (loginWith) {
       case AccountType.google:
-        return await handleGoogleSignin();
+        return await handleGoogleSignIn();
       case AccountType.facebook:
         ;
       case AccountType.linkedin:
-        ;
+        return await handleLinkedInSignIn(linkedinUser);
     }
   }
 
@@ -24,16 +39,37 @@ class AuthRepository {
       case AccountType.google:
         return await handleGoogleLogout();
       case AccountType.facebook:
-        ;
+        return;
       case AccountType.linkedin:
-        ;
+        return;
     }
   }
 
-  Future<GoogleSignInAccount?> handleGoogleSignin() async {
+  Future<User?> handleGoogleSignIn() async {
     try {
       GoogleSignInAccount? result = await googleSignIn.signIn();
-      return result;
+      return User(
+        email: result?.email,
+        name: result?.displayName,
+        photoUrl: result?.photoUrl,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<User?> handleLinkedInSignIn(LinkedInUserModel? linkedinUser) async {
+    try {
+      return User(
+        email: linkedinUser?.email?.elements?.first.handleDeep?.emailAddress,
+        name:
+            "${linkedinUser?.firstName?.localized?.label} ${linkedinUser?.lastName?.localized?.label}",
+        photoUrl: linkedinUser?.profilePicture?.displayImageContent?.elements
+            ?.elementAt(0)
+            .identifiers
+            ?.elementAt(0)
+            .identifier,
+      );
     } catch (e) {
       return null;
     }
