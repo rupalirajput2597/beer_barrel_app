@@ -20,7 +20,6 @@ class HomeCubit extends Cubit<HomeState> {
     //emitting appropriate state for pagination
     (pageNumber == 1) ? emit(LoadingHomeState()) : emit(LoadMoreHomeState());
     try {
-      //DataRepository dataRepo = RepositoryProvider.of<DataRepository>(context);
       List<Beer> results = await _dataRepository.fetchBeersList(pageNumber);
       if (results.isNotEmpty) {
         beers.addAll(results);

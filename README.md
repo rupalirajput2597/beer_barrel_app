@@ -14,6 +14,8 @@ The application consists of the following screens:
 
 4. **User Profile**: The profile screen contains basic user information and an option to logout with confirmation dialog.
 
+5. **Splash Screen**: Pre Authentication task. if user already logged in we take user to home and if user is Unauthorized we move user to login screen
+
 
 ## Requirements
 
@@ -56,8 +58,7 @@ flutter pub get
 ```
 
       ```
-
-Now the Beer-Barrel app is configured with SocialMedia Authentication. Users can log in using the social login options provided (Google, LinkedIN).
+Now the Beer-Barrel app is configured with SocialMedia Authentication. Users can log in using the social login options provided (Google, LinkedIN and Facebook).
 
 ## Dependencies and Libraries
 
@@ -70,16 +71,46 @@ The application utilizes the following dependencies and libraries:
 - **http**: A package for making HTTP requests, used for fetching data from the backend API.
 
 - **cached_network_image**: package in Flutter provides efficient caching and loading of network images, allowing you to display images from the internet with improved performance and reduced network requests.
-- 
+
 - **flutter_secure_storage**: package that provides a secure and persistent way to store sensitive data, such as authentication tokens or encryption keys, on a device
+
+- **flutter_login_facebook**: package is a Flutter plugin that provides login and authentication functionality using Facebook's login system. It allows users to log in to Flutter app using their Facebook credentials
+
+- **linkedin_login**: package is a Flutter plugin that provides authentication and user profile access through LinkedIn.
+
+- **equatable**: The equatable package is a Dart package that simplifies equality comparisons for objects.
+
+
+## Test Cases
+- **account**: account_cubit_test.dart: unit test cases for Account Cubit.
+
+- **home**: home_cubit_test.dart: unit test cases for Home Cubit.
+
+- **models**: beer_model_test.dart: unit test cases for Models Cubit.
+
+- **repository**: dataRepo and AuthRepo unit test cases.
+
+To run the test cases, follow these steps:
+
+1. Change to the project directory (if not already in):
+
+```bash
+cd beer_barrel
+Run the tests using the following command:
+
+flutter test
+```
 
 ## Assumptions
 
 The following assumptions were made during the development of the Beer-Barrel application:
 
-1. The user authentication process is handled entirely by the social login APIs (Google and LinkedIN).
+1. The user authentication process is handled entirely by the social login APIs (Google, Facebook and Linkedin).
 2. The backend API provided by Punk API is used for retrieving the product data.
-3. The design and layout of the application follow the specifications provided in the Figma design.
+3. The design and layout of the application follow the specifications provided in the Figma design. 
+4. In order to know the user about login, logout action and error, have used SnackBar to show messages. 
+5. stored logged in user information in local storage using flutter_secure_storage.
+6. I have made an assumption as whenever profileUrl is will fail to fetch the image, I am showing custom Widget containing User's name 1st letter
 
 ## Project Structure
 
@@ -93,7 +124,7 @@ The project follows a Bloc Code architecture, with separation of concerns and mo
       - **core**: contains all reusable widgets, themes and other core components.
           - **repository**: Handles data-related operations, including API calls.
           - **models**:contains all the required models.
-          - **common_widgets**: contains common widgets get used in multiple places in App.
+          - **widgets**: contains common widgets get used in multiple places in App.
           - **api**: http api_client.      
           - **theme**: App Theme.      
           - **constants**: Constants get used in App.      
@@ -101,8 +132,10 @@ The project follows a Bloc Code architecture, with separation of concerns and mo
           - **cubit**:  contain user Home page related business logic.
           - **widgets**: contains UI components of Home.
       - **Navigator**:     
-          - **routes**: Contains route definitions and navigation setup using Go Router.
-      - **Product**: Contains Product detail screen and UI components.
-      - **Splash**:  contain splash screen for initial app operations.
+          - **routes**: Contains route definitions and navigation setup using Go Router.      
+      - **main**:     
+            - **app**: BeerBarrel App root Widget.
+        - **Product**: Contains Product detail screen and UI components.
+        - **Splash**:  contain splash screen for initial app operations.
 
 

@@ -130,14 +130,14 @@ void main() {
       await authRepository.storeUserInfo(dummyUser, AccountType.google);
 
       verify(() =>
-              mockSecureStorage.write(key: Constants.EMAIL, value: userEmail))
+              mockSecureStorage.write(key: Constants.email, value: userEmail))
           .called(1);
       verify(() => mockSecureStorage.write(
-          key: Constants.DISPLAY_NAME, value: userFullName)).called(1);
+          key: Constants.displayName, value: userFullName)).called(1);
       verify(() => mockSecureStorage.write(
-          key: Constants.PROFILE_PICTURE, value: userProfileUrl)).called(1);
+          key: Constants.profilePicture, value: userProfileUrl)).called(1);
       verify(() => mockSecureStorage.write(
-          key: Constants.LoggedInAccountType, value: 'google')).called(1);
+          key: Constants.loggedInAccountType, value: 'google')).called(1);
     });
 
     test('delete all data from secure storage', () async {
@@ -152,11 +152,11 @@ void main() {
     test('fetchUserInfo() method should returns User object with stored data',
         () async {
       //Arrange
-      when(() => mockSecureStorage.read(key: Constants.DISPLAY_NAME))
+      when(() => mockSecureStorage.read(key: Constants.displayName))
           .thenAnswer((_) async => userFullName);
-      when(() => mockSecureStorage.read(key: Constants.EMAIL))
+      when(() => mockSecureStorage.read(key: Constants.email))
           .thenAnswer((_) async => userEmail);
-      when(() => mockSecureStorage.read(key: Constants.PROFILE_PICTURE))
+      when(() => mockSecureStorage.read(key: Constants.profilePicture))
           .thenAnswer((_) async => userProfileUrl);
 
       //Act
@@ -170,11 +170,11 @@ void main() {
         'fetchUserInfo() should returns User object with null data if not stored',
         () async {
       //Arrange
-      when(() => mockSecureStorage.read(key: Constants.DISPLAY_NAME))
+      when(() => mockSecureStorage.read(key: Constants.displayName))
           .thenAnswer((_) async => null);
-      when(() => mockSecureStorage.read(key: Constants.EMAIL))
+      when(() => mockSecureStorage.read(key: Constants.email))
           .thenAnswer((_) async => null);
-      when(() => mockSecureStorage.read(key: Constants.PROFILE_PICTURE))
+      when(() => mockSecureStorage.read(key: Constants.profilePicture))
           .thenAnswer((_) async => null);
       //Act
 
@@ -187,7 +187,7 @@ void main() {
     test('fetchLoggedInType() method should returns the loggedIn account type',
         () async {
       //Arrange
-      when(() => mockSecureStorage.read(key: Constants.LoggedInAccountType))
+      when(() => mockSecureStorage.read(key: Constants.loggedInAccountType))
           .thenAnswer((_) async => 'google');
       //Act
       final accountType = await authRepository.fetchLoggedInType();
@@ -199,7 +199,7 @@ void main() {
         'fetchLoggedInType() method returns null if the account type is not stored',
         () async {
       //Arrange
-      when(() => mockSecureStorage.read(key: Constants.LoggedInAccountType))
+      when(() => mockSecureStorage.read(key: Constants.loggedInAccountType))
           .thenAnswer((_) async => null);
       //act
       final accountType = await authRepository.fetchLoggedInType();

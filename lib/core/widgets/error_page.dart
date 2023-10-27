@@ -38,19 +38,26 @@ class ErrorPage extends StatelessWidget {
                         : "SOMETHING’S NOT RIGHT",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 16,
+                  ),
                   child: Text(
                     statusCode == 900
                         ? "Please try connecting to a stable connection.\nRefresh the page. Sometimes works."
                         : "We are sorry, we are having some technical issues.\nRefresh the page. Sometimes works. ;)",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w400, height: 1.5),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      height: 1.5,
+                    ),
                   ),
                 ),
                 GestureDetector(
@@ -70,9 +77,10 @@ class ErrorPage extends StatelessWidget {
                       Text(
                         "REFRESH",
                         style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       )
                     ],
                   ),

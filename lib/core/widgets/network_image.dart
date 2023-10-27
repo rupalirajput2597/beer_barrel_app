@@ -8,11 +8,13 @@ class NetworkImageWidget extends StatelessWidget {
   final String imageUrl;
   final double? height;
   final double? width;
+  final Widget? errorWidget;
 
   const NetworkImageWidget({
     required this.imageUrl,
     this.height,
     this.width,
+    this.errorWidget,
     super.key,
   });
 
@@ -30,11 +32,12 @@ class NetworkImageWidget extends StatelessWidget {
           children: [
             CircularProgressIndicator(
               value: downloadProgress.progress,
-              color: BBColor.grey,
+              color: BBColor.white,
             )
           ],
         ),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+        errorWidget: (context, url, error) =>
+            errorWidget ?? const Icon(Icons.error),
       ),
     );
   }

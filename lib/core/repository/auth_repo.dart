@@ -2,7 +2,6 @@ import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
-import 'package:logger/logger.dart';
 
 import '../core.dart';
 
@@ -10,11 +9,11 @@ enum AccountType { google, linkedin, facebook }
 
 //Beer Barrel User Authentication Repository
 class AuthRepository {
-  final GoogleSignIn googleSignIn;
-  final FacebookLogin facebookLoginPlugin;
-  final FlutterSecureStorage secureStorage;
+  final GoogleSignIn _googleSignIn;
+  final FacebookLogin _facebookLoginPlugin;
+  final FlutterSecureStorage _secureStorage;
   AuthRepository(
-      this.googleSignIn, this.secureStorage, this.facebookLoginPlugin);
+      this._googleSignIn, this._secureStorage, this._facebookLoginPlugin);
 
   Future<User?> loginWithSocialMedia(AccountType loginWith,
       {LinkedInUserModel? linkedinUser}) async {
@@ -28,22 +27,20 @@ class AuthRepository {
     }
   }
 
-  logoutWith(AccountType logoutWith) async {
+  logoutAction(AccountType logoutWith) async {
     switch (logoutWith) {
       case AccountType.google:
-        return await handleGoogleLogout();
-      case AccountType.linkedin:
-        return;
+        return await _googleSignIn.signOut();
       case AccountType.facebook:
-        await facebookLoginPlugin.logOut();
+        return await _facebookLoginPlugin.logOut();
+      case AccountType.linkedin:
         return;
     }
   }
 
   Future<User?> handleGoogleSignIn() async {
     try {
-      GoogleSignInAccount? result = await googleSignIn.signIn();
-
+      GoogleSignInAccount? result = await _googleSignIn.signIn();
       if (result != null) {
         return User(
           email: result.email,
@@ -80,24 +77,22 @@ class AuthRepository {
 
   Future<User?> handleFacebookSignIn() async {
     try {
-      FacebookLoginResult result =
-          await facebookLoginPlugin.logIn(permissions: [
+      await _facebookLoginPlugin.logIn(permissions: [
         FacebookPermission.publicProfile,
         FacebookPermission.email,
       ]);
 
-      final token = result.accessToken;
+      final token = await _facebookLoginPlugin.accessToken;
       FacebookUserProfile? profile;
       String? email;
       String? imageUrl;
 
       if (token != null) {
-        profile = await facebookLoginPlugin.getUserProfile();
+        profile = await _facebookLoginPlugin.getUserProfile();
         if (token.permissions.contains(FacebookPermission.email.name)) {
-          email = await facebookLoginPlugin.getUserEmail();
+          email = await _facebookLoginPlugin.getUserEmail();
         }
-        imageUrl = await facebookLoginPlugin.getProfileImageUrl(width: 100);
-        Logger().d("Rupali -- $imageUrl");
+        imageUrl = await _facebookLoginPlugin.getProfileImageUrl(width: 100);
         User user = User(
           email: email,
           name: profile?.name,
@@ -112,39 +107,28 @@ class AuthRepository {
     }
   }
 
-  Future<GoogleSignInAccount?> handleGoogleLogout() async {
-    try {
-      GoogleSignInAccount? result = await googleSignIn.signOut();
-      //await deleteStoredData();
-
-      return result;
-    } catch (e) {
-      return null;
-    }
-  }
-
   storeUserInfo(User user, AccountType loggedInType) async {
-    await secureStorage.write(key: Constants.EMAIL, value: user.email);
-    await secureStorage.write(key: Constants.DISPLAY_NAME, value: user.name);
-    await secureStorage.write(
-        key: Constants.PROFILE_PICTURE, value: user.photoUrl);
-    await secureStorage.write(
-        key: Constants.LoggedInAccountType, value: loggedInType.name);
+    await _secureStorage.write(key: Constants.email, value: user.email);
+    await _secureStorage.write(key: Constants.displayName, value: user.name);
+    await _secureStorage.write(
+        key: Constants.profilePicture, value: user.photoUrl);
+    await _secureStorage.write(
+        key: Constants.loggedInAccountType, value: loggedInType.name);
   }
 
   deleteStoredData() async {
-    await secureStorage.deleteAll();
+    await _secureStorage.deleteAll();
   }
 
   Future<User> fetchUserInfo() async {
-    String? name = await secureStorage.read(key: Constants.DISPLAY_NAME);
-    String? email = await secureStorage.read(key: Constants.EMAIL);
-    String? photoURL = await secureStorage.read(key: Constants.PROFILE_PICTURE);
+    String? name = await _secureStorage.read(key: Constants.displayName);
+    String? email = await _secureStorage.read(key: Constants.email);
+    String? photoURL = await _secureStorage.read(key: Constants.profilePicture);
 
     return User(name: name, email: email, photoUrl: photoURL);
   }
 
   fetchLoggedInType() async {
-    return await secureStorage.read(key: Constants.LoggedInAccountType);
+    return await _secureStorage.read(key: Constants.loggedInAccountType);
   }
 }

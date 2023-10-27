@@ -24,8 +24,9 @@ class UnauthenticatedAccountState extends AccountState {
 }
 
 class AccountErrorState extends AccountState {
-  String? errorMessage;
+  final String? errorMessage;
   AccountErrorState(this.errorMessage);
+
   @override
   List<Object?> get props => [errorMessage];
 }
