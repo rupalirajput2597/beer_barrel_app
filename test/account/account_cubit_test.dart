@@ -15,7 +15,7 @@ void main() {
   late User dummyUser;
   setUpAll(() {
     accountCubit = AccountCubit(authRepository);
-    dummyUser = User(
+    dummyUser = const User(
       email: 'https://example.com/photo.jpg',
       name: "Rupali Rajput",
       photoUrl: 'https://example.com/photo.jpg',

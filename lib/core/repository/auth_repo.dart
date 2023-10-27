@@ -76,35 +76,35 @@ class AuthRepository {
   }
 
   Future<User?> handleFacebookSignIn() async {
-    try {
-      await _facebookLoginPlugin.logIn(permissions: [
-        FacebookPermission.publicProfile,
-        FacebookPermission.email,
-      ]);
+//    try {
+    await _facebookLoginPlugin.logIn(permissions: [
+      FacebookPermission.publicProfile,
+      FacebookPermission.email,
+    ]);
 
-      final token = await _facebookLoginPlugin.accessToken;
-      FacebookUserProfile? profile;
-      String? email;
-      String? imageUrl;
+    final token = await _facebookLoginPlugin.accessToken;
+    FacebookUserProfile? profile;
+    String? email;
+    String? imageUrl;
 
-      if (token != null) {
-        profile = await _facebookLoginPlugin.getUserProfile();
-        if (token.permissions.contains(FacebookPermission.email.name)) {
-          email = await _facebookLoginPlugin.getUserEmail();
-        }
-        imageUrl = await _facebookLoginPlugin.getProfileImageUrl(width: 100);
-        User user = User(
-          email: email,
-          name: profile?.name,
-          photoUrl: imageUrl,
-        );
-        return user;
+    if (token != null) {
+      profile = await _facebookLoginPlugin.getUserProfile();
+      if (token.permissions.contains(FacebookPermission.email.name)) {
+        email = await _facebookLoginPlugin.getUserEmail();
       }
-
-      return null;
-    } catch (e) {
-      return null;
+      imageUrl = await _facebookLoginPlugin.getProfileImageUrl(width: 100);
+      User user = User(
+        email: email,
+        name: profile?.name,
+        photoUrl: imageUrl,
+      );
+      return user;
     }
+
+    return null;
+    // } catch (e) {
+    //   return null;
+    // }
   }
 
   storeUserInfo(User user, AccountType loggedInType) async {

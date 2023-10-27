@@ -29,14 +29,14 @@ void main() {
     late String userLastName;
     late String userProfileUrl;
     late User dummyUser;
+    late FacebookLoginResult loginResult;
+    late FacebookAccessToken accessToken;
+    late FacebookUserProfile userProfile;
 
     setUpAll(() {
       mockGoogleSignIn = MockGoogleSignIn();
       mockGoogleSignInAccount = MockGoogleSignInAccount();
       mockSecureStorage = MockFlutterSecureStorage();
-      mockFacebookLogin = MockFacebookLogin();
-      authRepository = AuthRepository(
-          mockGoogleSignIn, mockSecureStorage, mockFacebookLogin);
 
       userEmail = "rupalirajput@example.com";
       userFullName = "Rupali Rajput";
@@ -48,11 +48,51 @@ void main() {
         name: userFullName,
         photoUrl: userProfileUrl,
       );
+
+      mockFacebookLogin = MockFacebookLogin();
+      Map<String, dynamic> accessTokenMap = {
+        "token": 'dummy_access_token',
+        "userId": 'dummy_user_id',
+        "permissions": const ['email'],
+        'declinedPermissions': [],
+        "expires": 3600,
+      };
+      accessToken = FacebookAccessToken.fromMap(accessTokenMap);
+      loginResult = FacebookLoginResult.fromMap({
+        "status": "Success",
+        "accessToken": accessTokenMap, //accessToken,
+        "error": null,
+      });
+
+      userProfile = FacebookUserProfile.fromMap({
+        "userId": accessToken.userId,
+        "email": userEmail,
+        "name": userFullName,
+      });
+
+      when(() => mockFacebookLogin.logIn(
+              permissions: captureAny(named: 'permissions')))
+          .thenAnswer((_) async => loginResult);
+
+      when(() => mockFacebookLogin.accessToken)
+          .thenAnswer((_) async => accessToken);
+
+      when(() => mockFacebookLogin.getUserProfile())
+          .thenAnswer((_) async => userProfile);
+
+      when(() => mockFacebookLogin.getUserEmail())
+          .thenAnswer((_) async => userEmail);
+
+      when(() => mockFacebookLogin.getProfileImageUrl(width: 100))
+          .thenAnswer((_) async => userProfileUrl);
+
+      authRepository = AuthRepository(
+          mockGoogleSignIn, mockSecureStorage, mockFacebookLogin);
     });
 
     test('Google Sign-In should return a User Object', () async {
       when(() => mockGoogleSignIn.signIn())
-          .thenAnswer((_) => Future.value(mockGoogleSignInAccount));
+          .thenAnswer((_) async => mockGoogleSignInAccount);
       when(() => mockGoogleSignInAccount.email).thenReturn(userEmail);
       when(() => mockGoogleSignInAccount.displayName).thenReturn(userFullName);
       when(() => mockGoogleSignInAccount.photoUrl).thenReturn(userProfileUrl);
@@ -64,24 +104,16 @@ void main() {
     });
 
     test('Google-signin Should returns null on failure', () async {
-      // Arrange
       when(() => mockGoogleSignIn.signIn())
           .thenThrow(Exception('Google sign-in error'));
-      // Act
       final result = await authRepository.handleGoogleSignIn();
-      // Assert
       expect(result, isNull);
     });
 
-    test('Google Sign-In should return a User Object', () async {
-      when(() => mockGoogleSignIn.signIn())
-          .thenAnswer((_) => Future.value(mockGoogleSignInAccount));
-      when(() => mockGoogleSignInAccount.email).thenReturn(userEmail);
-      when(() => mockGoogleSignInAccount.displayName).thenReturn(userFullName);
-      when(() => mockGoogleSignInAccount.photoUrl).thenReturn(userProfileUrl);
-
-      final result =
-          await authRepository.loginWithSocialMedia(AccountType.google);
+    test('Facebook sign-in should return an User Object', () async {
+      AuthRepository authRepository = AuthRepository(
+          MockGoogleSignIn(), MockFlutterSecureStorage(), mockFacebookLogin);
+      final result = await authRepository.handleFacebookSignIn();
 
       expect(result, dummyUser);
     });
@@ -89,12 +121,17 @@ void main() {
     test(
         'LinkedInSignIn should returns a User when LinkedInUserModel is provided',
         () async {
-      // Arrange
       final mockLinkedinUser = MockLinkedInUserModel();
-      when(() => mockLinkedinUser.firstName).thenReturn(LinkedInPersonalInfo(
-          localized: LinkedInLocalInfo(label: userFirstName)));
-      when(() => mockLinkedinUser.lastName).thenReturn(LinkedInPersonalInfo(
-          localized: LinkedInLocalInfo(label: userLastName)));
+      when(() => mockLinkedinUser.firstName).thenReturn(
+        LinkedInPersonalInfo(
+          localized: LinkedInLocalInfo(label: userFirstName),
+        ),
+      );
+      when(() => mockLinkedinUser.lastName).thenReturn(
+        LinkedInPersonalInfo(
+          localized: LinkedInLocalInfo(label: userLastName),
+        ),
+      );
       when(() => mockLinkedinUser.email)
           .thenReturn(LinkedInProfileEmail(elements: [
         LinkedInDeepEmail(
@@ -102,11 +139,10 @@ void main() {
         ),
       ]));
 
-      // Act
       final user = await authRepository.handleLinkedInSignIn(
         mockLinkedinUser,
       );
-      // Assert
+
       expect(
         user,
         User(email: userEmail, name: userFullName),
@@ -114,11 +150,9 @@ void main() {
     });
 
     test('LinkedInSignIn returns null on null user', () async {
-      // Act
       final result = await authRepository.handleLinkedInSignIn(
         null,
       );
-      // Assert
       expect(result, isNull);
     });
 
@@ -141,17 +175,13 @@ void main() {
     });
 
     test('delete all data from secure storage', () async {
-      //Arrange
       when(() => mockSecureStorage.deleteAll()).thenAnswer((_) async {});
-      //Act
       await authRepository.deleteStoredData();
-      //Assert
       verify(() => mockSecureStorage.deleteAll()).called(1);
     });
 
     test('fetchUserInfo() method should returns User object with stored data',
         () async {
-      //Arrange
       when(() => mockSecureStorage.read(key: Constants.displayName))
           .thenAnswer((_) async => userFullName);
       when(() => mockSecureStorage.read(key: Constants.email))
@@ -159,10 +189,8 @@ void main() {
       when(() => mockSecureStorage.read(key: Constants.profilePicture))
           .thenAnswer((_) async => userProfileUrl);
 
-      //Act
       final result = await authRepository.fetchUserInfo();
 
-      //Assert
       expect(result, dummyUser);
     });
 

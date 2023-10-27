@@ -58,7 +58,6 @@ void main() {
     );
     //Act
     final List<Beer> result = await dataRepository.fetchBeersList(page);
-
     //Assert
     expect(result, beerList);
   });
