@@ -10,10 +10,7 @@ class CustomBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: 8,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
       color: BBColor.pageBackground,
       child: Row(
         children: [

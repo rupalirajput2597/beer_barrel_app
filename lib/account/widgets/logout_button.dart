@@ -31,7 +31,7 @@ class LogoutButton extends StatelessWidget {
         onPressed: onPress,
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 12.0,
+            vertical: 16.0,
           ),
           child: Text(
             'Logout',

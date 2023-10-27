@@ -41,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 8.0, left: 8),
+          padding:
+              const EdgeInsets.only(top: 20, bottom: 8.0, left: 8, right: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,

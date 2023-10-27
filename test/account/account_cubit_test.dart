@@ -24,15 +24,31 @@ void main() {
 
   group('AccountCubit', () {
     test('Initial state is InitialAccountState', () {
-      expect(accountCubit.state, InitialAccountState());
+      expect(
+        accountCubit.state,
+        InitialAccountState(),
+      );
     });
 
     test('Google-signin success should return AuthenticatedAccountState',
         () async {
       when(() => authRepository.loginWithSocialMedia(AccountType.google))
-          .thenAnswer((_) async => dummyUser);
+          .thenAnswer(
+        (_) async => dummyUser,
+      );
 
-      await accountCubit.signInWithGoogle();
+      await accountCubit.signInWithSocialMediaAccount(AccountType.google);
+
+      expect(accountCubit.state, AuthenticatedAccountState());
+    });
+    test('facebook-signin success should return AuthenticatedAccountState',
+        () async {
+      when(() => authRepository.loginWithSocialMedia(AccountType.facebook))
+          .thenAnswer(
+        (_) async => dummyUser,
+      );
+
+      await accountCubit.signInWithSocialMediaAccount(AccountType.facebook);
 
       expect(accountCubit.state, AuthenticatedAccountState());
     });
@@ -40,10 +56,10 @@ void main() {
     test('Google-signin fail should return AccountErrorState', () async {
       when(() => authRepository.loginWithSocialMedia(AccountType.google))
           .thenThrow(Exception('Login failed'));
-      await accountCubit.signInWithGoogle();
+      await accountCubit.signInWithSocialMediaAccount(AccountType.google);
       expect(
         accountCubit.state,
-        AccountErrorState("Something went wrong :  Unknown Error occurred"),
+        AccountErrorState(Constants.unknownErrorMsg),
       );
     });
 
@@ -51,13 +67,24 @@ void main() {
       when(() => authRepository.loginWithSocialMedia(AccountType.linkedin))
           .thenThrow(Exception('Login failed'));
 
-      await accountCubit.signInWithLinkedIn(LinkedInUserModel(
-        localizedFirstName: "Rupali",
-        localizedLastName: "Rajput",
-      ));
+      await accountCubit.signInWithSocialMediaAccount(AccountType.linkedin,
+          linkedinUser: LinkedInUserModel(
+            localizedFirstName: "Rupali",
+            localizedLastName: "Rajput",
+          ));
 
-      expect(accountCubit.state,
-          AccountErrorState("Something went wrong :  Unknown Error occured"));
+      expect(accountCubit.state, AccountErrorState(Constants.unknownErrorMsg));
+    });
+
+    test('Facebook signIn fail should return AccountErrorState', () async {
+      when(() => authRepository.loginWithSocialMedia(AccountType.facebook))
+          .thenThrow(Exception('Login failed'));
+
+      await accountCubit.signInWithSocialMediaAccount(
+        AccountType.facebook,
+      );
+
+      expect(accountCubit.state, AccountErrorState(Constants.unknownErrorMsg));
     });
 
     test('emits Authenticated state on alreadyLoggedIn User', () async {

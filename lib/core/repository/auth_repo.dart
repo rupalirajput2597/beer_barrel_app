@@ -1,38 +1,31 @@
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
+import 'package:logger/logger.dart';
 
 import '../core.dart';
 
-enum AccountType { google, linkedin }
+enum AccountType { google, linkedin, facebook }
 
 //Beer Barrel User Authentication Repository
 class AuthRepository {
   final GoogleSignIn googleSignIn;
+  final FacebookLogin facebookLoginPlugin;
   final FlutterSecureStorage secureStorage;
-  AuthRepository(this.googleSignIn, this.secureStorage);
-  // final secureStorage = FlutterSecureStorage();
-
-  // Future<User> loginWithSocialMedia(AccountType loginWith) async {
-  //   switch (loginWith) {
-  //     case AccountType.google:
-  //       return await handleGoogleSignin();
-  //     case AccountType.facebook:
-  //       ;
-  //     case AccountType.linkedin:
-  //       ;
-  //   }
-  // }
+  AuthRepository(
+      this.googleSignIn, this.secureStorage, this.facebookLoginPlugin);
 
   Future<User?> loginWithSocialMedia(AccountType loginWith,
       {LinkedInUserModel? linkedinUser}) async {
     switch (loginWith) {
       case AccountType.google:
-        return await handleGoogleSignIn(loginWith);
+        return await handleGoogleSignIn();
       case AccountType.linkedin:
-        return await handleLinkedInSignIn(linkedinUser, loginWith);
+        return await handleLinkedInSignIn(linkedinUser);
+      case AccountType.facebook:
+        return await handleFacebookSignIn();
     }
-    return null;
   }
 
   logoutWith(AccountType logoutWith) async {
@@ -40,12 +33,14 @@ class AuthRepository {
       case AccountType.google:
         return await handleGoogleLogout();
       case AccountType.linkedin:
-        //await _deleteStoredData();
+        return;
+      case AccountType.facebook:
+        await facebookLoginPlugin.logOut();
         return;
     }
   }
 
-  Future<User?> handleGoogleSignIn(AccountType logoutWith) async {
+  Future<User?> handleGoogleSignIn() async {
     try {
       GoogleSignInAccount? result = await googleSignIn.signIn();
 
@@ -62,8 +57,7 @@ class AuthRepository {
     }
   }
 
-  Future<User?> handleLinkedInSignIn(
-      LinkedInUserModel? linkedinUser, AccountType loginWith) async {
+  Future<User?> handleLinkedInSignIn(LinkedInUserModel? linkedinUser) async {
     try {
       if (linkedinUser != null) {
         User user = User(
@@ -84,6 +78,40 @@ class AuthRepository {
     }
   }
 
+  Future<User?> handleFacebookSignIn() async {
+    try {
+      FacebookLoginResult result =
+          await facebookLoginPlugin.logIn(permissions: [
+        FacebookPermission.publicProfile,
+        FacebookPermission.email,
+      ]);
+
+      final token = result.accessToken;
+      FacebookUserProfile? profile;
+      String? email;
+      String? imageUrl;
+
+      if (token != null) {
+        profile = await facebookLoginPlugin.getUserProfile();
+        if (token.permissions.contains(FacebookPermission.email.name)) {
+          email = await facebookLoginPlugin.getUserEmail();
+        }
+        imageUrl = await facebookLoginPlugin.getProfileImageUrl(width: 100);
+        Logger().d("Rupali -- $imageUrl");
+        User user = User(
+          email: email,
+          name: profile?.name,
+          photoUrl: imageUrl,
+        );
+        return user;
+      }
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<GoogleSignInAccount?> handleGoogleLogout() async {
     try {
       GoogleSignInAccount? result = await googleSignIn.signOut();
@@ -95,13 +123,13 @@ class AuthRepository {
     }
   }
 
-  storeUserInfo(User user, loggedInType) async {
+  storeUserInfo(User user, AccountType loggedInType) async {
     await secureStorage.write(key: Constants.EMAIL, value: user.email);
     await secureStorage.write(key: Constants.DISPLAY_NAME, value: user.name);
     await secureStorage.write(
         key: Constants.PROFILE_PICTURE, value: user.photoUrl);
     await secureStorage.write(
-        key: Constants.LoggedInAccountType, value: loggedInType);
+        key: Constants.LoggedInAccountType, value: loggedInType.name);
   }
 
   deleteStoredData() async {

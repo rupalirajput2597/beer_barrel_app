@@ -58,8 +58,18 @@ class Constants {
   static const EMAIL = "email";
   static const PROFILE_PICTURE = "profilePicture";
   static const LoggedInAccountType = "loggedInAccountType";
+  static const unknownErrorMsg =
+      "Something went wrong : Unknown Error occurred";
 
   static const String redirectUrl = 'https://www.youtube.com/callback';
   static const String clientId = '776rnw4e4izlvg';
   static const String clientSecret = 'rQEgboUHMLcQi59v';
 }
+
+//com.example.beer_barrel
+//facebook sh1 key :    o02rkrdvwGTfMSevkd0+i8b32nw=
+
+//keytool -exportcert -alias androiddebugkey -keystore "C:\Users\Rupali Rajput\.android\debug.keystore" | "C:\Users\Rupali Rajput\Downloads\openssl-0.9.8k_X64\bin\openssl" sha1 -binary | "C:\Users\Rupali Rajput\Downloads\openssl-0.9.8k_X64\bin\openssl" base64
+//   o02rkrdvwGTfMSevkd0+i8b32nw=
+
+//   NrBgwk/zdBEtRpVApKF9ZTeu28s=

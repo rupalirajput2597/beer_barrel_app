@@ -17,7 +17,7 @@ class SignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
@@ -29,18 +29,20 @@ class SignInButton extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Stack(
             children: [
-              Image(
-                height: 40,
-                image: AssetImage(
-                  logo,
+              Positioned(
+                left: 50,
+                child: Image(
+                  image: AssetImage(logo),
+                  height: 36,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 36),
+              Container(
+                height: 40,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.only(left: 0),
                 child: Text(
                   title,
                   overflow: TextOverflow.ellipsis,

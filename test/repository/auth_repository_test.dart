@@ -1,4 +1,5 @@
 import 'package:beer_barrel/core/core.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,12 +14,15 @@ class MockLinkedInUserModel extends Mock implements LinkedInUserModel {}
 
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 
+class MockFacebookLogin extends Mock implements FacebookLogin {}
+
 void main() {
   group('AuthRepository', () {
     late AuthRepository authRepository;
     late MockGoogleSignIn mockGoogleSignIn;
     late MockGoogleSignInAccount mockGoogleSignInAccount;
     late MockFlutterSecureStorage mockSecureStorage;
+    late MockFacebookLogin mockFacebookLogin;
     late String userEmail;
     late String userFullName;
     late String userFirstName;
@@ -30,7 +34,9 @@ void main() {
       mockGoogleSignIn = MockGoogleSignIn();
       mockGoogleSignInAccount = MockGoogleSignInAccount();
       mockSecureStorage = MockFlutterSecureStorage();
-      authRepository = AuthRepository(mockGoogleSignIn, mockSecureStorage);
+      mockFacebookLogin = MockFacebookLogin();
+      authRepository = AuthRepository(
+          mockGoogleSignIn, mockSecureStorage, mockFacebookLogin);
 
       userEmail = "rupalirajput@example.com";
       userFullName = "Rupali Rajput";
@@ -62,10 +68,22 @@ void main() {
       when(() => mockGoogleSignIn.signIn())
           .thenThrow(Exception('Google sign-in error'));
       // Act
-      final result =
-          await authRepository.handleGoogleSignIn(AccountType.google);
+      final result = await authRepository.handleGoogleSignIn();
       // Assert
       expect(result, isNull);
+    });
+
+    test('Google Sign-In should return a User Object', () async {
+      when(() => mockGoogleSignIn.signIn())
+          .thenAnswer((_) => Future.value(mockGoogleSignInAccount));
+      when(() => mockGoogleSignInAccount.email).thenReturn(userEmail);
+      when(() => mockGoogleSignInAccount.displayName).thenReturn(userFullName);
+      when(() => mockGoogleSignInAccount.photoUrl).thenReturn(userProfileUrl);
+
+      final result =
+          await authRepository.loginWithSocialMedia(AccountType.google);
+
+      expect(result, dummyUser);
     });
 
     test(
@@ -87,9 +105,7 @@ void main() {
       // Act
       final user = await authRepository.handleLinkedInSignIn(
         mockLinkedinUser,
-        AccountType.linkedin,
       );
-
       // Assert
       expect(
         user,
@@ -101,7 +117,6 @@ void main() {
       // Act
       final result = await authRepository.handleLinkedInSignIn(
         null,
-        AccountType.linkedin,
       );
       // Assert
       expect(result, isNull);
@@ -112,7 +127,7 @@ void main() {
           key: any(named: 'key'),
           value: any(named: 'value'))).thenAnswer((_) async {});
 
-      await authRepository.storeUserInfo(dummyUser, 'google');
+      await authRepository.storeUserInfo(dummyUser, AccountType.google);
 
       verify(() =>
               mockSecureStorage.write(key: Constants.EMAIL, value: userEmail))
