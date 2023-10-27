@@ -14,10 +14,12 @@ class AccountCubit extends Cubit<AccountState> {
   AccountCubit(this._authRepository) : super(InitialAccountState());
   final AuthRepository _authRepository;
 
-  signInWithGoogle() async {
+  signInWithSocialMediaAccount(AccountType loginWith,
+      {LinkedInUserModel? linkedinUser}) async {
     try {
       User? userResult = await _authRepository.loginWithSocialMedia(
-        AccountType.google,
+        loginWith,
+        linkedinUser: linkedinUser,
       );
 
       if (userResult == null) {
@@ -25,31 +27,12 @@ class AccountCubit extends Cubit<AccountState> {
       } else {
         user = userResult;
         emit(AuthenticatedAccountState());
-        _postLogin(userResult, AccountType.google);
+        _postLogin(userResult, loginWith);
       }
     } on LoginWithGoogleFailure catch (e) {
       emit(AccountErrorState(e.message));
     } catch (e) {
-      emit(AccountErrorState("Something went wrong :  Unknown Error occurred"));
-    }
-  }
-
-  signInWithLinkedIn(LinkedInUserModel? linkedinUser) async {
-    try {
-      User? userResult = await _authRepository.loginWithSocialMedia(
-          AccountType.linkedin,
-          linkedinUser: linkedinUser);
-      if (userResult == null) {
-        emit(UnauthenticatedAccountState());
-      } else {
-        user = userResult;
-        emit(AuthenticatedAccountState());
-        _postLogin(userResult, AccountType.linkedin);
-      }
-    } on LoginWithGoogleFailure catch (e) {
-      emit(AccountErrorState(e.message));
-    } catch (e) {
-      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
+      emit(AccountErrorState(Constants.unknownErrorMsg));
     }
   }
 
@@ -63,7 +46,7 @@ class AccountCubit extends Cubit<AccountState> {
     } on LoginWithGoogleFailure catch (e) {
       emit(AccountErrorState(e.message));
     } catch (e) {
-      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
+      emit(AccountErrorState(Constants.unknownErrorMsg));
     }
   }
 
@@ -85,7 +68,7 @@ class AccountCubit extends Cubit<AccountState> {
     } on LoginWithGoogleFailure catch (e) {
       emit(AccountErrorState(e.message));
     } catch (e) {
-      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
+      emit(AccountErrorState(Constants.unknownErrorMsg));
     }
   }
 

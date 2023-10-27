@@ -45,7 +45,10 @@ class _LinkedInRedirectState extends State<LinkedInRedirect> {
         );
       },
       onGetUserProfile: (final UserSucceededAction linkedInUser) {
-        context.read<AccountCubit>().signInWithLinkedIn(linkedInUser.user);
+        //  context.read<AccountCubit>().signInWithLinkedIn(linkedInUser.user);
+        context.read<AccountCubit>().signInWithSocialMediaAccount(
+            AccountType.linkedin,
+            linkedinUser: linkedInUser.user);
         context.pop();
       },
     );

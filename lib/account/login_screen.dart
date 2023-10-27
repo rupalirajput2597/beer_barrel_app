@@ -68,11 +68,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 16,
                 ),
                 _googleSignIn(),
-                // _facebookSignIn(),
+                _facebookSignIn(),
                 _linkedinSignIn(),
-                // _linkedinSignIn1(),
                 const SizedBox(
-                  height: 40,
+                  height: 16,
                 )
               ],
             ),
@@ -87,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
       titleColor: BBColor.pageBackground,
       backgroundColor: BBColor.white,
       onPressed: () {
-        _cubit.signInWithGoogle();
+        _cubit.signInWithSocialMediaAccount(AccountType.google);
       },
     );
   }
@@ -108,21 +107,21 @@ class _LoginScreenState extends State<LoginScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: SnackBarMessageWidget(
-          "Login successful : Welcome to Beer Barrel, ${user?.name}",
+          "Logged in successfully : Welcome to Beer Barrel, ${user?.name}",
         ),
       ),
     );
     context.pushReplacement(AppRouter.homeScreenPath);
   }
 
-//facebook now requires all NEWLY entered package names to be associated with a valid google play store URL https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432
   Widget _facebookSignIn() {
     return SignInButton(
-      logo: AssetHelper.facebookIconLarge,
-      title: "Facebook",
-      titleColor: BBColor.white,
-      backgroundColor: BBColor.facebookBG,
-      onPressed: () {},
-    );
+        logo: AssetHelper.facebookIconLarge,
+        title: "Facebook",
+        titleColor: BBColor.white,
+        backgroundColor: BBColor.facebookBG,
+        onPressed: () {
+          _cubit.signInWithSocialMediaAccount(AccountType.facebook);
+        });
   }
 }

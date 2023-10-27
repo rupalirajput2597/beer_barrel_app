@@ -17,10 +17,10 @@ dependencies:
   google_sign_in: ^6.1.5
   flutter_secure_storage: ^9.0.0
   linkedin_login: ^2.3.1
-  firebase_core: ^2.19.0
-  firebase_auth: ^4.11.1
   logger: ^2.0.2+1
   equatable: ^2.0.5
+  flutter_facebook_auth: ^6.0.2
+  flutter_login_facebook: ^1.9.0
 
 dev_dependencies:
   bloc_test: ^9.1.3

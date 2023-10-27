@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: SnackBarMessageWidget(
-                  "Logout Successful!!",
+                  "Successfully Logout!!",
                 ),
               ),
             );
@@ -75,14 +75,14 @@ class ProfileScreen extends StatelessWidget {
   //User Profile image
   Widget _previewImage(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.only(top: 60),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: user?.photoUrl == null
             ? Container(
                 color: BBColor.grey,
-                height: 190,
-                width: 190,
+                height: 200,
+                width: 200,
                 child: Center(
                   child: Text(
                     "${user?.name?[0]}",

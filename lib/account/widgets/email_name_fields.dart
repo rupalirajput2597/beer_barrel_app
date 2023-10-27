@@ -16,22 +16,28 @@ class EmailNameFieldWidget extends StatelessWidget {
         Text(
           "$title",
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w700, color: BBColor.grey1),
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: BBColor.grey1,
+          ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(
+          height: 8,
+        ),
         Container(
           padding: const EdgeInsets.symmetric(
-            vertical: 16,
+            vertical: 18,
             horizontal: 10,
           ),
           width: double.maxFinite,
           decoration: BoxDecoration(
-              color: BBColor.faintGrey,
-              borderRadius: BorderRadius.circular(10)),
+            color: BBColor.faintGrey,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Text(
             desc ?? "",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               color: BBColor.pageBackground,
             ),
