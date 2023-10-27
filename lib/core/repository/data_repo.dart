@@ -6,7 +6,7 @@ class DataRepository {
 
   DataRepository(this._apiClient);
 
-  Future<List<Beer>?> fetchBeersList(int page) async {
+  Future<List<Beer>> fetchBeersList(int page) async {
     final result = await _apiClient.fetchList(
       "/beers",
       queryParams: {

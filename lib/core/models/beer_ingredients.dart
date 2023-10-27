@@ -1,5 +1,3 @@
-import '../core.dart';
-
 class BeerIngredients {
   List<Malt>? malt;
   List<Hops>? hops;
@@ -26,10 +24,10 @@ class BeerIngredients {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (malt != null) {
-      data['malt'] = this.malt!.map((v) => v.toJson()).toList();
+      data['malt'] = malt?.map((v) => v.toJson()).toList();
     }
     if (hops != null) {
-      data['hops'] = hops!.map((v) => v.toJson()).toList();
+      data['hops'] = hops?.map((v) => v.toJson()).toList();
     }
     data['yeast'] = yeast;
     return data;
@@ -48,10 +46,10 @@ class Malt {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = this.name;
-    if (this.amount != null) {
-      data['amount'] = this.amount!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    if (amount != null) {
+      data['amount'] = amount?.toJson();
     }
     return data;
   }
@@ -74,12 +72,31 @@ class Hops {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = this.name;
-    if (this.amount != null) {
-      data['amount'] = this.amount!.toJson();
+    data['name'] = name;
+    if (amount != null) {
+      data['amount'] = amount?.toJson();
     }
-    data['add'] = this.add;
-    data['attribute'] = this.attribute;
+    data['add'] = add;
+    data['attribute'] = attribute;
+    return data;
+  }
+}
+
+class Amount {
+  num? value;
+  String? unit;
+
+  Amount({this.value, this.unit});
+
+  Amount.fromJson(Map<String, dynamic> json) {
+    value = json['value'];
+    unit = json['unit'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['value'] = value;
+    data['unit'] = unit;
     return data;
   }
 }

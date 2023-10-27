@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../core.dart';
+
 //cached Network image widget
 class NetworkImageWidget extends StatelessWidget {
   final String imageUrl;
@@ -25,7 +27,12 @@ class NetworkImageWidget extends StatelessWidget {
         progressIndicatorBuilder: (context, url, downloadProgress) => Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [],
+          children: [
+            CircularProgressIndicator(
+              value: downloadProgress.progress,
+              color: BBColor.grey,
+            )
+          ],
         ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       ),

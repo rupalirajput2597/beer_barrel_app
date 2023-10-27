@@ -18,14 +18,9 @@ class ProfileScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is LogoutSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
+              const SnackBar(
+                content: SnackBarMessageWidget(
                   "Logout Successful!!",
-                  style: TextStyle(
-                    color: BBColor.darkBlue,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
                 ),
               ),
             );
@@ -110,9 +105,9 @@ class ProfileScreen extends StatelessWidget {
   _showLogoutConfirmation(BuildContext context) {
     return ConfirmationDialog(
       titleText: "Logout",
-      messageText: "Are You sure, Do you Want to Logout?",
+      messageText: "Are you sure ${user?.name}, Do you want to logout?",
       onConfirm: () {
-        context.read<AccountCubit>().performLogout(context);
+        context.read<AccountCubit>().performLogout();
       },
     );
   }

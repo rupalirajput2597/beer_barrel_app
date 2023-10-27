@@ -37,8 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state is AccountErrorState) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
+                    content: SnackBarMessageWidget(
                       state.errorMessage!,
+                      msgType: SnackBarMessageType.error,
                     ),
                   ),
                 );
@@ -69,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _googleSignIn(),
                 // _facebookSignIn(),
                 _linkedinSignIn(),
+                // _linkedinSignIn1(),
                 const SizedBox(
                   height: 40,
                 )
@@ -85,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
       titleColor: BBColor.pageBackground,
       backgroundColor: BBColor.white,
       onPressed: () {
-        _cubit.signInWithGoogle(context);
+        _cubit.signInWithGoogle();
       },
     );
   }
@@ -105,13 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void _navigateToHome() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          "Login Successful !!!",
-          style: TextStyle(
-            color: BBColor.darkBlue,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-          ),
+        content: SnackBarMessageWidget(
+          "Login successful : Welcome to Beer Barrel, ${user?.name}",
         ),
       ),
     );

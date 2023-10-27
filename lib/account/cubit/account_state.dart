@@ -1,17 +1,36 @@
 //Account state
-abstract class AccountState {}
+import 'package:equatable/equatable.dart';
 
-class InitialAccountState extends AccountState {}
+abstract class AccountState extends Equatable {}
 
-class CheckingAuthenticationState extends AccountState {}
+class InitialAccountState extends AccountState {
+  @override
+  List<Object?> get props => [];
+}
 
-class AuthenticatedAccountState extends AccountState {}
+class CheckingAuthenticationState extends AccountState {
+  @override
+  List<Object?> get props => [];
+}
 
-class UnauthenticatedAccountState extends AccountState {}
+class AuthenticatedAccountState extends AccountState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UnauthenticatedAccountState extends AccountState {
+  @override
+  List<Object?> get props => [];
+}
 
 class AccountErrorState extends AccountState {
   String? errorMessage;
   AccountErrorState(this.errorMessage);
+  @override
+  List<Object?> get props => [errorMessage];
 }
 
-class LogoutSuccessState extends AccountState {}
+class LogoutSuccessState extends AccountState {
+  @override
+  List<Object?> get props => [];
+}

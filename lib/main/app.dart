@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,50 +12,61 @@ import '../navigator/app_router.dart';
 init() {
   final apiClient = ApiClient(http.Client());
   final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+  final DataRepository dataRepository = DataRepository(apiClient);
+  const secureStorage = FlutterSecureStorage();
+
+  final AuthRepository authRepository =
+      AuthRepository(googleSignIn, secureStorage);
 
   runApp(
-    MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(
-          create: (context) => DataRepository(apiClient),
-        ),
-        RepositoryProvider(
-          create: (context) => AuthRepository(googleSignIn),
-        ),
-      ],
-      child: const BeerBarrelApp(),
+    BeerBarrelApp(
+      dataRepository: dataRepository,
+      authRepository: authRepository,
     ),
   );
 }
 
 class BeerBarrelApp extends StatelessWidget {
-  const BeerBarrelApp({super.key});
+  final DataRepository dataRepository;
+  final AuthRepository authRepository;
+  const BeerBarrelApp(
+      {required this.dataRepository, required this.authRepository, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider<HomeCubit>(
-          create: (_) => HomeCubit(),
+        RepositoryProvider(
+          create: (context) => dataRepository,
         ),
-        BlocProvider<AccountCubit>(
-          create: (_) => AccountCubit(),
+        RepositoryProvider(
+          create: (context) => authRepository,
         ),
       ],
-      child: MaterialApp.router(
-        routeInformationParser: AppRouter.router.routeInformationParser,
-        routerDelegate: AppRouter.router.routerDelegate,
-        routeInformationProvider: AppRouter.router.routeInformationProvider,
-        title: 'Beer Barrel',
-        theme: BBAppTheme.theme(context),
-        builder: (context, child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaleFactor: 1.0,
-            ),
-            child: child!,
-          );
-        },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<HomeCubit>(
+            create: (_) => HomeCubit(dataRepository),
+          ),
+          BlocProvider<AccountCubit>(
+            create: (_) => AccountCubit(authRepository),
+          ),
+        ],
+        child: MaterialApp.router(
+          routeInformationParser: AppRouter.router.routeInformationParser,
+          routerDelegate: AppRouter.router.routerDelegate,
+          routeInformationProvider: AppRouter.router.routeInformationProvider,
+          title: 'Beer Barrel',
+          theme: BBAppTheme.theme(context),
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: 1.0,
+              ),
+              child: child!,
+            );
+          },
+        ),
       ),
     );
   }
