@@ -15,38 +15,44 @@ class ConfirmationDialog extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Card(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          color: BBColor.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  "$titleText",
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        color: BBColor.white,
+        child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                  ),
+                  child: Text(
+                    "$titleText",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: BBColor.red,
+                    ),
+                  ),
+                ),
+                Text(
+                  "$messageText",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                     color: BBColor.pageBackground,
                   ),
                 ),
-              ),
-              Text(
-                "$messageText",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  color: BBColor.pageBackground,
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              _buttonRow(context)
-            ],
-          )),
+                _buttonRow(context)
+              ],
+            )),
+      ),
     );
   }
 

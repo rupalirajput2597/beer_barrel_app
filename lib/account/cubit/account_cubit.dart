@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 
 import '../../core/core.dart';
@@ -13,14 +11,12 @@ String? loggedInType;
 
 //Account business logic
 class AccountCubit extends Cubit<AccountState> {
-  AccountCubit() : super(InitialAccountState());
-  static const secureStorage = FlutterSecureStorage();
+  AccountCubit(this._authRepository) : super(InitialAccountState());
+  final AuthRepository _authRepository;
 
-  signInWithGoogle(BuildContext context) async {
+  signInWithGoogle() async {
     try {
-      AuthRepository repository =
-          RepositoryProvider.of<AuthRepository>(context);
-      User? userResult = await repository.loginWithSocialMedia(
+      User? userResult = await _authRepository.loginWithSocialMedia(
         AccountType.google,
       );
 
@@ -28,30 +24,27 @@ class AccountCubit extends Cubit<AccountState> {
         emit(UnauthenticatedAccountState());
       } else {
         user = userResult;
-        _postLogin(AccountType.google.name);
         emit(AuthenticatedAccountState());
+        _postLogin(userResult, AccountType.google);
       }
     } on LoginWithGoogleFailure catch (e) {
       emit(AccountErrorState(e.message));
     } catch (e) {
-      emit(AccountErrorState("Something went wrong :  Unknown Error occured"));
+      emit(AccountErrorState("Something went wrong :  Unknown Error occurred"));
     }
   }
 
-  signInWithLinkedIn(
-      BuildContext context, LinkedInUserModel? linkedinUser) async {
+  signInWithLinkedIn(LinkedInUserModel? linkedinUser) async {
     try {
-      AuthRepository repository =
-          RepositoryProvider.of<AuthRepository>(context);
-      User? userResult = await repository.loginWithSocialMedia(
+      User? userResult = await _authRepository.loginWithSocialMedia(
           AccountType.linkedin,
           linkedinUser: linkedinUser);
       if (userResult == null) {
         emit(UnauthenticatedAccountState());
       } else {
         user = userResult;
-        _postLogin(AccountType.linkedin.name);
         emit(AuthenticatedAccountState());
+        _postLogin(userResult, AccountType.linkedin);
       }
     } on LoginWithGoogleFailure catch (e) {
       emit(AccountErrorState(e.message));
@@ -60,12 +53,10 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  performLogout(BuildContext context) async {
+  performLogout() async {
     try {
       if (loggedInType == AccountType.google.name) {
-        AuthRepository repository =
-            RepositoryProvider.of<AuthRepository>(context);
-        repository.LogoutWith(AccountType.google);
+        _authRepository.logoutWith(AccountType.google);
       }
       _postLogout();
       emit(LogoutSuccessState());
@@ -79,17 +70,13 @@ class AccountCubit extends Cubit<AccountState> {
   alreadyLoggedIn() async {
     try {
       emit(CheckingAuthenticationState());
-      String? name = await secureStorage.read(key: Constants.DISPLAY_NAME);
-      String? email = await secureStorage.read(key: Constants.EMAIL);
-      String? photoURL =
-          await secureStorage.read(key: Constants.PROFILE_PICTURE);
 
-      if (name != null && email != null) {
+      User storedUserInfo = await _authRepository.fetchUserInfo();
+
+      if (storedUserInfo.isNotEmpty) {
+        user = storedUserInfo;
         keepSession = true;
-        loggedInType =
-            await secureStorage.read(key: Constants.LoggedInAccountType);
-        user = User(email: email, name: name, photoUrl: photoURL);
-
+        loggedInType = await _authRepository.fetchLoggedInType();
         emit(AuthenticatedAccountState());
       } else {
         keepSession = false;
@@ -102,21 +89,16 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  void _postLogin(String loggedInWith) async {
-    await secureStorage.write(key: Constants.EMAIL, value: user?.email);
-    await secureStorage.write(key: Constants.DISPLAY_NAME, value: user?.name);
-    await secureStorage.write(
-        key: Constants.PROFILE_PICTURE, value: user?.photoUrl);
-    await secureStorage.write(
-        key: Constants.LoggedInAccountType, value: loggedInType);
+  void _postLogin(User user, AccountType loggedInWith) async {
+    _authRepository.storeUserInfo(user, AccountType.google);
     keepSession = true;
-    loggedInType = loggedInWith;
+    loggedInType = loggedInWith.name;
   }
 
   void _postLogout() async {
     user = null;
     keepSession = false;
     loggedInType = null;
-    await secureStorage.deleteAll();
+    await _authRepository.deleteStoredData();
   }
 }

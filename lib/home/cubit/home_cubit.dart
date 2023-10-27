@@ -8,7 +8,9 @@ import '../home.dart';
 
 //Home Business Logic
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(InitialHomeState());
+  HomeCubit(this._dataRepository) : super(InitialHomeState());
+
+  final DataRepository _dataRepository;
 
   List<Beer> beers = [];
   int pageNumber = 1;
@@ -18,25 +20,24 @@ class HomeCubit extends Cubit<HomeState> {
     //emitting appropriate state for pagination
     (pageNumber == 1) ? emit(LoadingHomeState()) : emit(LoadMoreHomeState());
     try {
-      DataRepository dataRepo = RepositoryProvider.of<DataRepository>(context);
-      List<Beer>? results = await dataRepo.fetchBeersList(pageNumber);
-      if (results == null) throw Exception(100);
+      //DataRepository dataRepo = RepositoryProvider.of<DataRepository>(context);
+      List<Beer> results = await _dataRepository.fetchBeersList(pageNumber);
       if (results.isNotEmpty) {
         beers.addAll(results);
         pageNumber += 1;
       }
       emit(DataFetchedSuccessHomeState());
     } on SocketException catch (e, s) {
-      _resetPage();
+      resetPage();
       emit(ErrorHomeState(900));
     } catch (e) {
-      _resetPage();
+      resetPage();
       emit(ErrorHomeState(100));
     }
   }
 
   //resetting page
-  _resetPage() {
+  resetPage() {
     pageNumber = 1;
   }
 }

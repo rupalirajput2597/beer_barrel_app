@@ -37,18 +37,22 @@ class _LinkedInRedirectState extends State<LinkedInRedirect> {
         context.pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
+            content: SnackBarMessageWidget(
               e.exception.toString(),
+              msgType: SnackBarMessageType.error,
             ),
           ),
         );
       },
       onGetUserProfile: (final UserSucceededAction linkedInUser) {
-        context
-            .read<AccountCubit>()
-            .signInWithLinkedIn(context, linkedInUser.user);
+        context.read<AccountCubit>().signInWithLinkedIn(linkedInUser.user);
         context.pop();
       },
     );
   }
 }
+
+//https://www.linkedin.com/developers/tools/oauth/redirect
+
+//AuthToken
+//AQW5X1DRFuj2mDIm2liyAvCpm1zfPqJdzXc5stXTH4bb3vZPukQ9Dq1bp34iYEL0m59NGexCi1DBP3TWRwGpIVdyXXDHEWnzpx9VGsQY6YZZb-fmOD058g4kjcDuyP_0uU_bWPqnYzqHL475t7rla1T6762osQ6gfc28Ie0OD_QGU2-FG-dqoHW0sX8tGocVPTmj08viScdSWlRWadN_YshKvoGR_68tagyFI8fZxuTgz2FvlrXqyXDOXjpdGey1LPJPYVSd0ZPAaY8Gx-c6DhvG2uQNTCA4azX6Sp7XGvhg3OGBx7HHBjTWAMlPsr0DyHHs464MRVQ9RsbhlRHu3zVnim3DbA

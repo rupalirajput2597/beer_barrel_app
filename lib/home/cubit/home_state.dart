@@ -1,15 +1,32 @@
 //Home States
-abstract class HomeState {}
+import 'package:equatable/equatable.dart';
 
-class InitialHomeState extends HomeState {}
+abstract class HomeState extends Equatable {}
 
-class LoadingHomeState extends HomeState {}
+class InitialHomeState extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
 
-class LoadMoreHomeState extends HomeState {}
+class LoadingHomeState extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
 
-class DataFetchedSuccessHomeState extends HomeState {}
+class LoadMoreHomeState extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
+
+class DataFetchedSuccessHomeState extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
 
 class ErrorHomeState extends HomeState {
   final int statusCode;
   ErrorHomeState(this.statusCode);
+
+  @override
+  List<Object?> get props => [statusCode];
 }

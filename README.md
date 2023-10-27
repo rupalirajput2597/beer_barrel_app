@@ -6,7 +6,7 @@ beer_barrel is a mobile application built using Flutter that allows users to bro
 
 The application consists of the following screens:
 
-1. **Login**: This screen is displayed when the user is not logged in. It provides social login options using Google.
+1. **Login**: This screen is displayed when the user is not logged in. It provides social login options using Google and Linkedin.
 
 2. **Home**: After successful login, the user is redirected to the home screen. This screen displays a list of products fetched from the backend using the Punk API. The products are presented in a scrollable grid view, supporting pull-to-refresh and scroll-to-load-more functionality.
 
@@ -57,7 +57,6 @@ flutter pub get
 
       ```
 
-
 Now the Beer-Barrel app is configured with SocialMedia Authentication. Users can log in using the social login options provided (Google, LinkedIN).
 
 ## Dependencies and Libraries
@@ -78,7 +77,7 @@ The application utilizes the following dependencies and libraries:
 
 The following assumptions were made during the development of the Beer-Barrel application:
 
-1. The user authentication process is handled entirely by the social login APIs (Google).
+1. The user authentication process is handled entirely by the social login APIs (Google and LinkedIN).
 2. The backend API provided by Punk API is used for retrieving the product data.
 3. The design and layout of the application follow the specifications provided in the Figma design.
 

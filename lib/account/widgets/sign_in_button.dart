@@ -40,12 +40,10 @@ class SignInButton extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  right: 28,
-                  left: 36,
-                ),
+                padding: const EdgeInsets.only(left: 36),
                 child: Text(
                   title,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: titleColor,
                     fontSize: 16,
