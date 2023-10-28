@@ -6,7 +6,7 @@ beer_barrel is a mobile application built using Flutter that allows users to bro
 
 The application consists of the following screens:
 
-1. **Login**: This screen is displayed when the user is not logged in. It provides social login options using Google and Linkedin.
+1. **Login**: This screen is displayed when the user is not logged in. It provides social login options using Google, Facebook and Linkedin.
 
 2. **Home**: After successful login, the user is redirected to the home screen. This screen displays a list of products fetched from the backend using the Punk API. The products are presented in a scrollable grid view, supporting pull-to-refresh and scroll-to-load-more functionality.
 
@@ -58,7 +58,7 @@ flutter pub get
 ```
 
       ```
-Now the Beer-Barrel app is configured with SocialMedia Authentication(Google, LinkedIN and Facebook). Users can log in using the social login options provided.
+Now the Beer-Barrel app is configured with SocialMedia Authentication(Google,Facebook and Linkedin). Users can log in using the social login options provided.
 
 ## Dependencies and Libraries
 
@@ -72,9 +72,9 @@ The application utilizes the following dependencies and libraries:
 
 - **cached_network_image**: package in Flutter provides efficient caching and loading of network images, allowing you to display images from the internet with improved performance and reduced network requests.
 
-- **flutter_secure_storage**: package that provides a secure and persistent way to store sensitive data, such as authentication tokens or encryption keys, on a device
+- **flutter_secure_storage**: package that provides a secure and persistent way to store sensitive data, such as authentication tokens or encryption keys, on a device.
 
-- **flutter_login_facebook**: package is a Flutter plugin that provides login and authentication functionality using Facebook's login system. It allows users to log in to Flutter app using their Facebook credentials
+- **flutter_login_facebook**: package is a Flutter plugin that provides login and authentication functionality using Facebook's login system. It allows users to log in to Flutter app using their Facebook credentials.
 
 - **linkedin_login**: package is a Flutter plugin that provides authentication and user profile access through LinkedIn.
 
@@ -112,6 +112,7 @@ The following assumptions were made during the development of the Beer-Barrel ap
 5. stored logged in user information in local storage using flutter_secure_storage.
 6. I have made an assumption as whenever profileUrl is will fail to fetch the image, I am showing custom Widget containing Username's 1st letter
 7. ".secret_key.dart" file is required for linkedin signin, I know it is secret I should not add it to git but for simplicity I have added it to git(lib/core/.secret_key.dart)
+8. "I have windows machine"
 
 ## Project Structure
 
