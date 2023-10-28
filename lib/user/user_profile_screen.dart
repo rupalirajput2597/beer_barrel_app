@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../account/account.dart';
 import '../core/core.dart';
 import '../navigator/app_router.dart';
-import 'account.dart';
+import 'user.dart';
 
 //User Profile Screen
 class ProfileScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: SnackBarMessageWidget(
-                  "Successfully Logout!!",
+                  "Successfully Logged out!!",
                 ),
               ),
             );

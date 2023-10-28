@@ -126,8 +126,8 @@ The project follows a Bloc Code architecture, with separation of concerns and mo
 - **lib**: Contains the main application code.
 - **account**: contains user account related data .
 - **cubit**: contain user login/logout related business logic.
-          - **widgets**:contains UI components for Login and UserProfileScreen.
-          - **screens**:Login and ProfileScreen.
+          - **widgets**: contains UI components for Login.
+          - **screen**: Login Screen.
 - **core**: contains all reusable widgets, themes and other core components.
           - **repository**: Handles data-related operations, including API calls.
           - **models**:contains all the required models.
@@ -144,6 +144,7 @@ The project follows a Bloc Code architecture, with separation of concerns and mo
 - **main**:     
             - **app**: BeerBarrel App root Widget.
 - **Product**: Contains Product detail screen and UI components.
-- **Splash**:  contain splash screen for initial app operations.
+- **User**:  contains UserProfileScreen and related UI components.
+- **Splash**:  contains splash screen for initial app operations.
 
 

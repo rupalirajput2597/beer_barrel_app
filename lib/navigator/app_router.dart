@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../account/login_screen.dart';
-import '../account/user_profile_screen.dart';
 import '../core/core.dart';
 import '../home/home.dart';
 import '../product/product_detail_screen.dart';
 import '../splash/splash_screen.dart';
+import '../user/user_profile_screen.dart';
 
 //go_router implementation
 class AppRouter {
