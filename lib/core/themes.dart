@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
 
+import 'core.dart';
+
+//Beer Barrel Custom theme
 class BBAppTheme {
   static ThemeData theme(BuildContext context) => ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: "sf-pro-text",
         useMaterial3: true,
-        primaryColor: BBColor.pageBackground(context),
-        primaryColorDark: BBColor.pageBackground(context),
-        canvasColor: BBColor.pageBackground(context),
-        scaffoldBackgroundColor: BBColor.pageBackground(context),
+        scaffoldBackgroundColor: BBColor.pageBackground,
+        primaryColor: BBColor.pageBackground,
+        colorScheme: ColorScheme.dark(
+          brightness: Brightness.dark,
+          onTertiary: BBColor.pageBackground,
+          error: BBColor.red,
+        ),
       );
 }
 
+//Beer Barrel Colors
 class BBColor {
-  static Color pageBackground(BuildContext context, {double opacity = 1.0}) {
-    // return hexToColor("#0D0D0D").withOpacity(opacity);
-    return hexToColor("#FFFFFF").withOpacity(opacity);
-  }
-}
+  static Color get pageBackground => hexToColor("#1E2022");
 
-/// Construct a color from a hex code string, of the format #RRGGBB.
-Color hexToColor(String code) {
-  try {
-    return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
-  } catch (e) {
-    return Colors.transparent;
-  }
+  static Color get white => hexToColor("#FFFFFF");
+  static Color get transparent => Colors.transparent;
+  static Color get primaryGrey => hexToColor("#AFB2B5");
+  static Color get secondaryGrey => hexToColor("#77838F");
+  static Color get faintWhite => hexToColor("#F2F2F2");
+  static Color get grey => hexToColor("#D8D8D8");
+  static Color get faintGrey => hexToColor("#EEEEEE");
+  static Color get grey1 => hexToColor("#979797");
+  static Color get red => hexToColor("#FF0F00");
+  static Color get linkedInBG => hexToColor("#0077B5");
+  static Color get facebookBG => hexToColor("#3D6AD6");
+  static Color get darkBlue => Colors.blue;
 }

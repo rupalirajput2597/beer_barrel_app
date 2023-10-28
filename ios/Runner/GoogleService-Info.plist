@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBov4I-nR8Mt0nNmOPihO1POV7m4aRDWMs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1095395162109</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.beerBarrel</string>
+	<key>PROJECT_ID</key>
+	<string>beer-barrel-ba5a0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>beer-barrel-ba5a0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1095395162109:ios:352ca38941de9fff59cb94</string>
+</dict>
+</plist>
