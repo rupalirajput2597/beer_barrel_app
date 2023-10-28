@@ -34,11 +34,9 @@ class ProductDetailScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            //product header with black BG
-            _header(context),
-            //product Description
+            _header(context), //product header with black BG
             ProductDescriptionWithIngredients(
-              beer: selectedBeer,
+              beer: selectedBeer, //product Description
             ),
           ],
         ),

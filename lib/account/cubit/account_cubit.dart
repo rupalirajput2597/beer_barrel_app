@@ -14,8 +14,10 @@ class AccountCubit extends Cubit<AccountState> {
   AccountCubit(this._authRepository) : super(InitialAccountState());
   final AuthRepository _authRepository;
 
-  signInWithSocialMediaAccount(AccountType loginWith,
-      {LinkedInUserModel? linkedinUser}) async {
+  signInWithSocialMediaAccount(
+    AccountType loginWith, {
+    LinkedInUserModel? linkedinUser,
+  }) async {
     try {
       User? userResult = await _authRepository.loginWithSocialMedia(
         loginWith,
@@ -38,8 +40,12 @@ class AccountCubit extends Cubit<AccountState> {
 
   performLogout() async {
     try {
-      if (loggedInType == AccountType.google.name) {
-        _authRepository.logoutWith(AccountType.google);
+      if (loggedInType == AccountType.google.name ||
+          loggedInType == AccountType.facebook.name) {
+        AccountType type = loggedInType == AccountType.google.name
+            ? AccountType.google
+            : AccountType.facebook;
+        _authRepository.logoutAction(type);
       }
       _postLogout();
       emit(LogoutSuccessState());
@@ -53,7 +59,6 @@ class AccountCubit extends Cubit<AccountState> {
   alreadyLoggedIn() async {
     try {
       emit(CheckingAuthenticationState());
-
       User storedUserInfo = await _authRepository.fetchUserInfo();
 
       if (storedUserInfo.isNotEmpty) {

@@ -22,6 +22,7 @@ class SplashScreen extends StatelessWidget {
                   "Welcome back, ${user?.name}!!",
                 )),
               );
+
               //Navigating to Home page if user is already logged-in
               context.pushReplacement(AppRouter.homeScreenPath);
             }

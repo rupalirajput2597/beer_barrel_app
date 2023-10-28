@@ -10,6 +10,8 @@ import 'account.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
+  static const double profileHeightWidth = 200;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,24 +81,12 @@ class ProfileScreen extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: user?.photoUrl == null
-            ? Container(
-                color: BBColor.grey,
-                height: 200,
-                width: 200,
-                child: Center(
-                  child: Text(
-                    "${user?.name?[0]}",
-                    style: TextStyle(
-                        color: BBColor.pageBackground.withOpacity(0.5),
-                        fontSize: 36,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
-              )
+            ? _profilePlaceHolder()
             : NetworkImageWidget(
                 imageUrl: user?.photoUrl ?? "",
-                height: 190,
-                width: 190,
+                height: profileHeightWidth,
+                width: profileHeightWidth,
+                errorWidget: _profilePlaceHolder(),
               ),
       ),
     );
@@ -109,6 +99,24 @@ class ProfileScreen extends StatelessWidget {
       onConfirm: () {
         context.read<AccountCubit>().performLogout();
       },
+    );
+  }
+
+  Widget _profilePlaceHolder() {
+    return Container(
+      color: BBColor.grey,
+      height: profileHeightWidth,
+      width: profileHeightWidth,
+      child: Center(
+        child: Text(
+          "${user?.name?[0]}",
+          style: TextStyle(
+            color: BBColor.pageBackground.withOpacity(0.5),
+            fontSize: 36,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
     );
   }
 }
