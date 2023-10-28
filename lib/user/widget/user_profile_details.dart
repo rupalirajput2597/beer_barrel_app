@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../account/account.dart';
 import '../../core/core.dart';
-import '../account.dart';
+import '../user.dart';
 
 class UserProfileDetailsWidget extends StatelessWidget {
   const UserProfileDetailsWidget({super.key});
