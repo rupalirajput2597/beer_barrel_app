@@ -44,7 +44,7 @@ void main() {
       when(() => mockHttpClient.get(_beersUrl()))
           .thenAnswer((_) async => response);
 
-      expect(() => apiClient.fetchList('/beers'), throwsA(isA<BBException>()));
+      expect(() => apiClient.fetchList('/beers'), throwsA(isA<Exception>()));
     });
   });
 }

@@ -1,6 +1,6 @@
 # beer_barrel
 
-beer_barrel is a mobile application built using Flutter that allows users to browse and view Beers. It includes features such as social login, product listing, product details, and user profile details.
+beer_barrel is a mobile application built using Flutter that allows users to browse and view Beers. It includes features such as social login(Google, Facebook and Linkedin sign in), product listing, product details, and user profile details with logout option
 
 ## Screens
 
@@ -8,13 +8,13 @@ The application consists of the following screens:
 
 1. **Login**: This screen is displayed when the user is not logged in. It provides social login options using Google, Facebook and Linkedin.
 
-2. **Home**: After successful login, the user is redirected to the home screen. This screen displays a list of products fetched from the backend using the Punk API. The products are presented in a scrollable grid view, supporting pull-to-refresh and scroll-to-load-more functionality.
+2. **Home**: After successful login, the user is redirected to the home screen(welcome msg will be shown to user). This screen displays a list of products fetched from the backend using the Punk API. The products are presented in a scrollable grid view, supporting pull-to-refresh and scroll-to-load-more functionality.
 
 3. **Product Detail**: When a user selects a product from the home screen, the product detail screen is displayed. This screen provides comprehensive details about the selected product as received from the API.
 
 4. **User Profile**: The profile screen contains basic user information and an option to logout with confirmation dialog.
 
-5. **Splash Screen**: Pre Authentication task. if user already logged in we take user to home and if user is Unauthorized we move user to login screen
+5. **Splash Screen**: Pre Authentication task. if user already logged in we take user to home and if user is not already logged in we move user to login screen
 
 
 ## Requirements
@@ -71,7 +71,7 @@ The application utilizes the following dependencies and libraries:
 
 - **cached_network_image**: package in Flutter provides efficient caching and loading of network images, allowing you to display images from the internet with improved performance and reduced network requests.
 
-- **flutter_secure_storage**: package that provides a secure and persistent way to store sensitive data, such as authentication tokens or encryption keys, on a device.
+- **flutter_secure_storage**: package that provides a secure and persistent way to store sensitive data on a device( in our case storing logged in user data).
 
 - **flutter_login_facebook**: package is a Flutter plugin that provides login and authentication functionality using Facebook's login system. It allows users to log in to Flutter app using their Facebook credentials.
 
@@ -81,13 +81,15 @@ The application utilizes the following dependencies and libraries:
 
 
 ## Test Cases
-- **account**: account_cubit_test.dart: unit test cases for Account Cubit.
+- **account**: account_cubit_test.dart: test cases for Account Cubit.
 
-- **home**: home_cubit_test.dart: unit test cases for Home Cubit.
+- **home**: home_cubit_test.dart: test cases for Home Cubit.
 
-- **models**: beer_model_test.dart: unit test cases for Models Cubit.
+- **models**: beer_model_test.dart: test cases for Models.
 
-- **repository**: dataRepo and AuthRepo unit test cases.
+- **repository**: dataRepo and AuthRepo test cases.
+
+- **api**: api test cases.
 
 To run the test cases, follow these steps:
 
@@ -99,6 +101,13 @@ Run the tests using the following command:
 
 flutter test
 ```
+2. I you want to run each test file separately:
+```bash
+Run the tests using the following command:
+
+flutter test <path of file>
+```
+
 
 ## Assumptions
 
@@ -110,7 +119,7 @@ The following assumptions were made during the development of the Beer-Barrel ap
 4. In order to know the user about login, logout action and error, have used SnackBar to show messages. 
 5. stored logged in user information in local storage using flutter_secure_storage.
 6. I have made an assumption as whenever profileUrl is will fail to fetch the image, I am showing custom Widget containing Username's 1st letter
-7. ".secret_key.dart" file is required for linkedin signin, I know it is secret I should not add it to git but for simplicity I have added it to git(lib/core/.secret_key.dart) please do not modify it
+7. ".secret_key.dart" file is required for linkedin sign-in, I know it is secret I should not add it to git but for simplicity I have added it to git(lib/core/.secret_key.dart) please do not modify it
 8. I developed code on windows machine, so code will surely work on android(for IOS I couldn't test it as I don't have mac and iphone), 
 
 ## Project Structure
