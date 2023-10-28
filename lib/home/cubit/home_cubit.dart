@@ -17,8 +17,9 @@ class HomeCubit extends Cubit<HomeState> {
 
   //Fetching Beer List
   fetchBeerList(BuildContext context) async {
-    //emitting appropriate state for pagination
-    (pageNumber == 1) ? emit(LoadingHomeState()) : emit(LoadMoreHomeState());
+    (pageNumber == 1)
+        ? emit(LoadingHomeState())
+        : emit(LoadMoreHomeState()); //emitting appropriate state for pagination
     try {
       List<Beer> results = await _dataRepository.fetchBeersList(pageNumber);
       if (results.isNotEmpty) {

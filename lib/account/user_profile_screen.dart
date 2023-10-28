@@ -80,14 +80,12 @@ class ProfileScreen extends StatelessWidget {
       padding: const EdgeInsets.only(top: 60),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: user?.photoUrl == null
-            ? _profilePlaceHolder()
-            : NetworkImageWidget(
-                imageUrl: user?.photoUrl ?? "",
-                height: profileHeightWidth,
-                width: profileHeightWidth,
-                errorWidget: _profilePlaceHolder(),
-              ),
+        child: NetworkImageWidget(
+          imageUrl: user?.photoUrl ?? "",
+          height: profileHeightWidth,
+          width: profileHeightWidth,
+          placeHolder: _profilePlaceHolder(),
+        ),
       ),
     );
   }

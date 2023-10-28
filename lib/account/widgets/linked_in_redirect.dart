@@ -1,3 +1,4 @@
+import 'package:beer_barrel/core/.secret_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,9 +23,9 @@ class _LinkedInRedirectState extends State<LinkedInRedirect> {
         title: const Text('oauth2/linked-in'),
       ),
       destroySession: !keepSession,
-      redirectUrl: Constants.redirectUrl,
-      clientId: Constants.clientId,
-      clientSecret: Constants.clientSecret,
+      redirectUrl: linkedInRedirectUrl,
+      clientId: linkedInClientId,
+      clientSecret: linkedInClientSecret,
       projection: const [
         ProjectionParameters.id,
         ProjectionParameters.localizedFirstName,
