@@ -40,18 +40,14 @@ class Beer extends Equatable {
     firstBrewed = json['first_brewed'];
     description = json['description'];
     imageUrl = json['image_url'];
-
-    abv = json['abv'];
-    ibu = json['ibu'];
-
-    targetFg = json['target_fg'];
-    targetOg = json['target_og'];
-    ebc = json['ebc'];
-    srm = json['srm'];
-
-    ph = json['ph'];
-
-    attenuationLevel = json['attenuation_level'];
+    abv = json['abv'] ?? 0;
+    ibu = json['ibu'] ?? 0;
+    targetFg = json['target_fg'] ?? 0;
+    targetOg = json['target_og'] ?? 0;
+    ebc = json['ebc'] ?? 0;
+    srm = json['srm'] ?? 0;
+    ph = json['ph'] ?? 0;
+    attenuationLevel = json['attenuation_level'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {
