@@ -93,21 +93,18 @@ The application utilizes the following dependencies and libraries:
 
 To run the test cases, follow these steps:
 
-1. Change to the project directory (if not already in):
+1. Change to the project directory (if not already in), run the tests using the following command:
 
 ```bash
 cd beer_barrel
-Run the tests using the following command:
 
 flutter test
 ```
-2. I you want to run each test file separately:
-```bash
-Run the tests using the following command:
+2. I you want to run each test file separately, run the test using the following command:
 
+```bash
 flutter test <path of file>
 ```
-
 
 ## Assumptions
 
@@ -140,7 +137,7 @@ The project follows a Bloc Code architecture, with separation of concerns and mo
           - **until**: General app utilities we can add in this file.      
           - **constants**: Constants get used in App.      
 - **Home**: Contains the UI components, Home screens and cubit related to Home feature.
-          - **cubit**:  contain user Home page related business logic.
+          - **cubit**:  contain home page related business logic.
           - **widgets**: contains UI components of Home.
 - **Navigator**:     
           - **routes**: Contains route definitions and navigation setup using Go Router.      

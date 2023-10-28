@@ -7,10 +7,10 @@ class MockHttpClient extends Mock implements http.Client {}
 
 Uri _beersUrl() {
   return Uri.https(
-    'api.punkapi.com',
+    Constants.baseUrl,
     '/v2/beers',
     <String, String>{
-      'per_page': "10",
+      'per_page': "20",
     },
   );
 }
@@ -44,7 +44,7 @@ void main() {
       when(() => mockHttpClient.get(_beersUrl()))
           .thenAnswer((_) async => response);
 
-      expect(() => apiClient.fetchList('/beers'), throwsA(isA<Exception>()));
+      expect(() => apiClient.fetchList('/beers'), throwsA(isA<BBException>()));
     });
   });
 }
