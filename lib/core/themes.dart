@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'core.dart';
+
 //Beer Barrel Custom theme
 class BBAppTheme {
   static ThemeData theme(BuildContext context) => ThemeData(
@@ -31,13 +33,4 @@ class BBColor {
   static Color get linkedInBG => hexToColor("#0077B5");
   static Color get facebookBG => hexToColor("#3D6AD6");
   static Color get darkBlue => Colors.blue;
-}
-
-// Construct a color from a hex code string, of the format #RRGGBB.
-Color hexToColor(String code) {
-  try {
-    return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
-  } catch (e) {
-    return Colors.transparent;
-  }
 }

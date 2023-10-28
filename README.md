@@ -58,7 +58,7 @@ flutter pub get
 ```
 
       ```
-Now the Beer-Barrel app is configured with SocialMedia Authentication. Users can log in using the social login options provided (Google, LinkedIN and Facebook).
+Now the Beer-Barrel app is configured with SocialMedia Authentication(Google, LinkedIN and Facebook). Users can log in using the social login options provided.
 
 ## Dependencies and Libraries
 
@@ -110,7 +110,8 @@ The following assumptions were made during the development of the Beer-Barrel ap
 3. The design and layout of the application follow the specifications provided in the Figma design. 
 4. In order to know the user about login, logout action and error, have used SnackBar to show messages. 
 5. stored logged in user information in local storage using flutter_secure_storage.
-6. I have made an assumption as whenever profileUrl is will fail to fetch the image, I am showing custom Widget containing User's name 1st letter
+6. I have made an assumption as whenever profileUrl is will fail to fetch the image, I am showing custom Widget containing Username's 1st letter
+7. ".secret_key.dart" file is required for linkedin signin, I know it is secret I should not add it to git but for simplicity I have added it to git(lib/core/.secret_key.dart)
 
 ## Project Structure
 
@@ -127,6 +128,7 @@ The project follows a Bloc Code architecture, with separation of concerns and mo
           - **widgets**: contains common widgets get used in multiple places in App.
           - **api**: http api_client.      
           - **theme**: App Theme.      
+          - **until**: General app utilities we can add in this file.      
           - **constants**: Constants get used in App.      
       - **Home**: Contains the UI components, Home screens and cubit related to Home feature.
           - **cubit**:  contain user Home page related business logic.

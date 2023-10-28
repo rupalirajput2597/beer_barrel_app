@@ -18,7 +18,6 @@ class ApiClient {
     final response = await httpClient.get(
       uri,
     );
-
     return _handleResponse(response);
   }
 
@@ -41,7 +40,7 @@ class ApiClient {
     Map<String, String>? queryParams,
   }) async {
     Map<String, String> params = {
-      'per_page': "10",
+      'per_page': "20",
     };
     if (queryParams != null) {
       params.addAll(queryParams);

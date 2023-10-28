@@ -29,13 +29,6 @@ init() {
   );
 }
 
-void _setStatusBarColor() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: BBColor.pageBackground,
-    statusBarIconBrightness: Brightness.light,
-  ));
-}
-
 class BeerBarrelApp extends StatelessWidget {
   final DataRepository dataRepository;
   final AuthRepository authRepository;
@@ -80,4 +73,12 @@ class BeerBarrelApp extends StatelessWidget {
       ),
     );
   }
+}
+
+//
+void _setStatusBarColor() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: BBColor.pageBackground,
+    statusBarIconBrightness: Brightness.light,
+  ));
 }
