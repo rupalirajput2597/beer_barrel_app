@@ -5,6 +5,7 @@ import 'package:beer_barrel/navigator/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/sign_in_button.dart';
 
@@ -21,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     _cubit = context.read<AccountCubit>();
+    print("initefryry");
     super.initState();
   }
 
@@ -35,13 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 _navigateToHome();
               }
               if (state is AccountErrorState) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: SnackBarMessageWidget(
-                      state.errorMessage!,
-                      msgType: SnackBarMessageType.error,
-                    ),
-                  ),
+                showSnackBar(
+                  context,
+                  "${state.errorMessage}",
+                  msgType: SnackBarMessageType.error,
                 );
               }
             },
@@ -67,61 +66,84 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                _googleSignIn(),
-                _facebookSignIn(),
-                _linkedinSignIn(),
-                const SizedBox(
-                  height: 16,
-                )
+                Consumer<ConnectivityService>(
+                  builder: (context, connectivityService, child) {
+                    return Column(
+                      children: [
+                        _googleSignIn(connectivityService.isOnline),
+                        _facebookSignIn(connectivityService.isOnline),
+                        _linkedinSignIn(connectivityService.isOnline),
+                        _noInternetMsg(connectivityService.isOnline),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
           )),
     );
   }
 
-  Widget _googleSignIn() {
+  Widget _googleSignIn(bool isOnline) {
+    print(ConnectivityService().isOnline);
     return SignInButton(
-      logo: AssetHelper.googleIconLarge,
-      title: "Google",
-      titleColor: BBColor.pageBackground,
-      backgroundColor: BBColor.white,
-      onPressed: () {
-        _cubit.signInWithSocialMediaAccount(AccountType.google);
-      },
-    );
+        logo: AssetHelper.googleIconLarge,
+        title: "Google",
+        titleColor: BBColor.pageBackground,
+        backgroundColor: BBColor.white,
+        onPressed: !isOnline
+            ? null
+            : () {
+                _cubit.signInWithSocialMediaAccount(AccountType.google);
+              });
   }
 
-  Widget _linkedinSignIn() {
+  Widget _linkedinSignIn(bool isOnline) {
     return SignInButton(
       logo: AssetHelper.linkedinIconLarge,
       title: "LinkedIn",
       titleColor: BBColor.white,
       backgroundColor: BBColor.linkedInBG,
-      onPressed: () {
-        context.push(AppRouter.linkedInRedirect);
-      },
+      onPressed: !isOnline
+          ? null
+          : () {
+              context.push(AppRouter.linkedInRedirect);
+            },
     );
   }
 
   void _navigateToHome() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: SnackBarMessageWidget(
-          "Logged in successfully : Welcome to Beer Barrel, ${user?.name}",
-        ),
-      ),
+    showSnackBar(
+      context,
+      "Logged in successfully : Welcome to Beer Barrel, ${user?.name}",
     );
     context.pushReplacement(AppRouter.homeScreenPath);
   }
 
-  Widget _facebookSignIn() {
+  Widget _facebookSignIn(bool isOnline) {
     return SignInButton(
         logo: AssetHelper.facebookIconLarge,
         title: "Facebook",
         titleColor: BBColor.white,
         backgroundColor: BBColor.facebookBG,
-        onPressed: () {
-          _cubit.signInWithSocialMediaAccount(AccountType.facebook);
-        });
+        onPressed: !isOnline
+            ? null
+            : () {
+                _cubit.signInWithSocialMediaAccount(AccountType.facebook);
+              });
+  }
+
+  _noInternetMsg(bool isOnline) {
+    return Container(
+      alignment: Alignment.center,
+      height: 30,
+      color: isOnline ? null : BBColor.red,
+      child: (!isOnline)
+          ? Text(
+              "No internet connection!",
+              style: TextStyle(color: BBColor.white),
+            )
+          : null,
+    );
   }
 }

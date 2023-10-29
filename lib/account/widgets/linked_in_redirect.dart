@@ -36,17 +36,10 @@ class _LinkedInRedirectState extends State<LinkedInRedirect> {
       ],
       onError: (final UserFailedAction e) {
         context.pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: SnackBarMessageWidget(
-              e.exception.toString(),
-              msgType: SnackBarMessageType.error,
-            ),
-          ),
-        );
+        showSnackBar(context, "${e.exception}",
+            msgType: SnackBarMessageType.error);
       },
       onGetUserProfile: (final UserSucceededAction linkedInUser) {
-        //  context.read<AccountCubit>().signInWithLinkedIn(linkedInUser.user);
         context.read<AccountCubit>().signInWithSocialMediaAccount(
             AccountType.linkedin,
             linkedinUser: linkedInUser.user);
