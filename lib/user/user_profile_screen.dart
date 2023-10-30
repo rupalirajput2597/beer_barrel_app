@@ -20,13 +20,11 @@ class ProfileScreen extends StatelessWidget {
       body: BlocListener<AccountCubit, AccountState>(
         listener: (context, state) {
           if (state is LogoutSuccessState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: SnackBarMessageWidget(
-                  "Successfully Logged out!!",
-                ),
-              ),
+            showSnackBar(
+              context,
+              "Successfully Logged out!!",
             );
+
             context.pushReplacement(AppRouter.loginScreenPath);
           }
         },

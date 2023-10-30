@@ -5,6 +5,7 @@ import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../account/account.dart';
 import '../core/core.dart';
@@ -22,9 +23,12 @@ init() {
       AuthRepository(googleSignIn, secureStorage, plugin);
 
   runApp(
-    BeerBarrelApp(
-      dataRepository: dataRepository,
-      authRepository: authRepository,
+    ChangeNotifierProvider(
+      create: (_) => ConnectivityService(),
+      child: BeerBarrelApp(
+        dataRepository: dataRepository,
+        authRepository: authRepository,
+      ),
     ),
   );
 }
@@ -75,7 +79,6 @@ class BeerBarrelApp extends StatelessWidget {
   }
 }
 
-//
 void _setStatusBarColor() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
     statusBarColor: BBColor.pageBackground,
