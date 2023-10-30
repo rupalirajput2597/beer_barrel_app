@@ -19,6 +19,8 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   linkedin_login: ^2.3.1
   flutter_login_facebook: ^1.9.0
+  connectivity: ^3.0.6
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

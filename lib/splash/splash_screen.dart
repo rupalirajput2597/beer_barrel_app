@@ -16,11 +16,9 @@ class SplashScreen extends StatelessWidget {
         body: BlocConsumer<AccountCubit, AccountState>(
           listener: (context, state) {
             if (state is AuthenticatedAccountState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: SnackBarMessageWidget(
-                  "Welcome back, ${user?.name}!!",
-                )),
+              showSnackBar(
+                context,
+                "Welcome back, ${user?.name}!!",
               );
 
               //Navigating to Home page if user is already logged-in

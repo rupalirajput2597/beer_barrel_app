@@ -1,4 +1,5 @@
 export 'api/apiClient.dart';
+export 'connectivity_service.dart';
 export 'constants.dart';
 export 'models/models.dart';
 export 'repository/auth_repo.dart';
