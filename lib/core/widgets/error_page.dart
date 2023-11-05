@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core.dart';
 
+//Error page when we error occurred on home page
 class ErrorPage extends StatelessWidget {
   final Function onRefresh;
   final int statusCode;

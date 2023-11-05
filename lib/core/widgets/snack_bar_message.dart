@@ -5,6 +5,7 @@ enum SnackBarMessageType {
   error,
 }
 
+//common snack-bar for success and failure msg in app
 showSnackBar(BuildContext context, String msg,
     {SnackBarMessageType msgType = SnackBarMessageType.success,
     Duration? duration}) {

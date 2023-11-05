@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+//beer model
 class Beer extends Equatable {
   int? id;
   String? name;

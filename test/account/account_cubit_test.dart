@@ -1,13 +1,10 @@
 import 'package:beer_barrel/account/account.dart';
 import 'package:beer_barrel/core/core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
-
-class MockBuildContext extends Mock implements BuildContext {}
 
 void main() {
   late AccountCubit accountCubit;

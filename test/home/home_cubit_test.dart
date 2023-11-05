@@ -5,8 +5,6 @@ import 'package:beer_barrel/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../account/account_cubit_test.dart';
-
 class MockDataRepository extends Mock implements DataRepository {}
 
 void main() {
@@ -66,7 +64,7 @@ void main() {
           .thenAnswer((_) async => mockBeers);
 
       // Act
-      await homeCubit.fetchBeerList(MockBuildContext());
+      await homeCubit.fetchBeerList();
 
       // Assert
       expect(homeCubit.state, DataFetchedSuccessHomeState());
@@ -81,7 +79,7 @@ void main() {
           .thenThrow(const SocketException('Network error'));
 
       // Act
-      await homeCubit.fetchBeerList(MockBuildContext());
+      await homeCubit.fetchBeerList();
 
       expect(homeCubit.state, ErrorHomeState(900));
       expect(homeCubit.beers, isEmpty);
@@ -94,7 +92,7 @@ void main() {
           .thenThrow(Exception('Generic error'));
 
       // Act
-      await homeCubit.fetchBeerList(MockBuildContext());
+      await homeCubit.fetchBeerList();
 
       // Assert
       expect(homeCubit.state, isA<ErrorHomeState>());

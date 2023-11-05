@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _cubit = context.read<HomeCubit>();
-    _cubit.fetchBeerList(context);
+    _cubit.fetchBeerList();
     _scrollController = ScrollController();
     _onScrollPagination();
     super.initState();
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        _cubit.fetchBeerList(context);
+        _cubit.fetchBeerList();
       }
     });
   }
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
   _pullToRefresh() async {
     _cubit.beers = [];
     _cubit.pageNumber = 1;
-    _cubit.fetchBeerList(context);
+    _cubit.fetchBeerList();
   }
 
   Widget _gridView() {
@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ErrorPage(
             statusCode: state.statusCode,
             onRefresh: () {
-              _cubit.fetchBeerList(context);
+              _cubit.fetchBeerList();
             },
           ),
         ],

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/core.dart';
@@ -16,7 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
   int pageNumber = 1;
 
   //Fetching Beer List
-  fetchBeerList(BuildContext context) async {
+  fetchBeerList() async {
     (pageNumber == 1)
         ? emit(LoadingHomeState())
         : emit(LoadMoreHomeState()); //emitting appropriate state for pagination

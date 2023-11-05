@@ -22,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     _cubit = context.read<AccountCubit>();
-    print("initefryry");
     super.initState();
   }
 
